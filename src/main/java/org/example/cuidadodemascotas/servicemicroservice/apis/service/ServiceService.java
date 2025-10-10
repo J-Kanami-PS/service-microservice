@@ -1,146 +1,127 @@
 package org.example.cuidadodemascotas.servicemicroservice.apis.service;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.cuidadodemascota.commons.entities.service.ServiceType;
+import org.example.cuidadodemascota.commons.entities.service.Service;
+import org.example.cuidadodemascotas.servicemicroservice.apis.dto.ServiceRequestDTO;
+import org.example.cuidadodemascotas.servicemicroservice.apis.dto.ServiceResponseDTO;
 import org.example.cuidadodemascotas.servicemicroservice.apis.repository.ServiceRepository;
-import org.example.cuidadodemascotas.servicemicroservice.apis.repository.ServiceTypeRepository;
+import org.example.cuidadodemascotas.servicemicroservice.exception.NotFoundException;
+import org.example.cuidadodemascotas.servicemicroservice.utils.ServiceMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.lang.reflect.Method;
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.Optional;
 
 @Slf4j
-@Service
-@RequiredArgsConstructor
+@Component
 @Transactional(readOnly = true)
-public class ServiceService {
+public class ServiceService extends AbstractBaseService<Service, ServiceResponseDTO> {
 
     private final ServiceRepository serviceRepository;
-    private final ServiceTypeRepository serviceTypeRepository;
+    private final ServiceMapper serviceMapper;
 
-    // ========== CREATE ==========
+    @Value("${pagination.size.service.list:10}")
+    private int defaultPageSize;
+
+    @Value("${pagination.size.service.search:10}")
+    private int searchPageSize;
+
+    public ServiceService(ServiceRepository repository, ServiceMapper mapper) {
+        super(repository, Service.class, mapper);
+        this.serviceRepository = repository;
+        this.serviceMapper = mapper;
+    }
+
     @Transactional
-    public org.example.cuidadodemascota.commons.entities.service.Service create(
-            org.example.cuidadodemascota.commons.entities.service.Service service) {
+    public ServiceResponseDTO create(ServiceRequestDTO dto) {
+        log.info("Creating service for carer: {}, type: {}", dto.getCarerId(), dto.getServiceTypeId());
 
-        Long carerId = getEntityId(service.getCarer());
-        log.info("Creating service for carer: {}", carerId);
+        validateServiceRequest(dto);
 
-        validateCarerAndServiceType(service.getCarer(), service.getServiceType());
+        Service entity = serviceMapper.toEntity(dto);
+        entity.setActive(true);
 
-        if (service.getPrice().compareTo(BigDecimal.ZERO) <= 0) {
-            throw new IllegalArgumentException("El precio debe ser mayor a cero");
-        }
+        Service saved = serviceRepository.save(entity);
+        log.info("Service created successfully with id: {}", saved.getId());
 
-        service.setActive(true);
-        return serviceRepository.save(service);
+        return serviceMapper.toDto(saved);
     }
 
-    // ========== READ ==========
-    public Page<org.example.cuidadodemascota.commons.entities.service.Service> findAllActive(int page, int size) {
-        PageRequest pageable = PageRequest.of(page, size);
-        return serviceRepository.findByActiveTrue(pageable);
+    public ServiceResponseDTO findById(Long id) {
+        log.debug("Finding service by id: {}", id);
+        Service entity = findEntityById(id);
+        return serviceMapper.toDto(entity);
     }
 
-    public Optional<org.example.cuidadodemascota.commons.entities.service.Service> findById(Long id) {
-        return serviceRepository.findByIdAndActiveTrue(id);
+    public Page<ServiceResponseDTO> findByFilters(
+            Long carerId,
+            Long serviceTypeId,
+            BigDecimal minPrice,
+            BigDecimal maxPrice,
+            int page,
+            int size) {
+
+        log.debug("Finding services with filters - carerId: {}, serviceTypeId: {}, minPrice: {}, maxPrice: {}",
+                carerId, serviceTypeId, minPrice, maxPrice);
+
+        int pageSize = size > 0 ? size : defaultPageSize;
+        PageRequest pageable = PageRequest.of(page, pageSize);
+
+        Page<Service> entityPage = serviceRepository.findByFilters(
+                carerId, serviceTypeId, minPrice, maxPrice, pageable);
+
+        return entityPage.map(serviceMapper::toDto);
     }
 
-    public List<org.example.cuidadodemascota.commons.entities.service.Service> findByCarerId(Long carerId) {
-        return serviceRepository.findByCarerIdAndActiveTrue(carerId);
+    public Page<ServiceResponseDTO> searchByDescription(String text, int page, int size) {
+        log.debug("Searching services by description: {}", text);
+
+        int pageSize = size > 0 ? size : searchPageSize;
+        PageRequest pageable = PageRequest.of(page, pageSize);
+
+        Page<Service> entityPage = serviceRepository.searchByDescription(text, pageable);
+        return entityPage.map(serviceMapper::toDto);
     }
 
-    public List<org.example.cuidadodemascota.commons.entities.service.Service> findByServiceTypeId(Long serviceTypeId) {
-        return serviceRepository.findByServiceTypeIdAndActiveTrue(serviceTypeId);
-    }
-
-    public Page<org.example.cuidadodemascota.commons.entities.service.Service> findByFilters(
-            Long carerId, Long serviceTypeId, BigDecimal minPrice, BigDecimal maxPrice,
-            int page, int size) {
-        PageRequest pageable = PageRequest.of(page, size);
-        return serviceRepository.findByFilters(carerId, serviceTypeId, minPrice, maxPrice, pageable);
-    }
-
-    // ========== UPDATE ==========
     @Transactional
-    public org.example.cuidadodemascota.commons.entities.service.Service update(
-            Long id, org.example.cuidadodemascota.commons.entities.service.Service serviceDetails) {
+    public ServiceResponseDTO update(Long id, ServiceRequestDTO dto) {
+        log.info("Updating service with id: {}", id);
 
-        org.example.cuidadodemascota.commons.entities.service.Service existingService =
-                serviceRepository.findByIdAndActiveTrue(id)
-                        .orElseThrow(() -> new IllegalArgumentException("Servicio no encontrado con id: " + id));
+        Service existing = findEntityById(id);
 
-        if (serviceDetails.getServiceType() != null) {
-            existingService.setServiceType(serviceDetails.getServiceType());
-        }
-        if (serviceDetails.getCarer() != null) {
-            existingService.setCarer(serviceDetails.getCarer());
-        }
-        if (serviceDetails.getDescription() != null) {
-            existingService.setDescription(serviceDetails.getDescription());
-        }
-        if (serviceDetails.getPrice() != null) {
-            if (serviceDetails.getPrice().compareTo(BigDecimal.ZERO) <= 0) {
-                throw new IllegalArgumentException("El precio debe ser mayor a cero");
-            }
-            existingService.setPrice(serviceDetails.getPrice());
-        }
+        validateServiceRequest(dto);
 
-        return serviceRepository.save(existingService);
+        serviceMapper.updateEntityFromDto(dto, existing);
+        Service updated = serviceRepository.save(existing);
+
+        log.info("Service updated successfully: {}", id);
+        return serviceMapper.toDto(updated);
     }
 
-    // ========== DELETE LÓGICO ==========
     @Transactional
     public void delete(Long id) {
-        org.example.cuidadodemascota.commons.entities.service.Service service =
-                serviceRepository.findByIdAndActiveTrue(id)
-                        .orElseThrow(() -> new IllegalArgumentException("Servicio no encontrado con id: " + id));
-
-        service.setActive(false);
-        serviceRepository.save(service);
+        log.info("Soft deleting service with id: {}", id);
+        softDelete(id);
+        log.info("Service deleted successfully: {}", id);
     }
 
-    // ========== VALIDATION METHODS ==========
-    private void validateCarerAndServiceType(
-            Object carer,
-            ServiceType serviceType) {
-
-        Long carerId = getEntityId(carer);
-        if (carerId == null) {
-            throw new IllegalArgumentException("Carer es requerido");
+    private void validateServiceRequest(ServiceRequestDTO dto) {
+        if (dto.getCarerId() == null) {
+            throw new IllegalArgumentException("El ID del cuidador es requerido");
         }
 
-        Long serviceTypeId = getEntityId(serviceType);
-        if (serviceTypeId == null) {
-            throw new IllegalArgumentException("ServiceType es requerido");
+        if (dto.getServiceTypeId() == null) {
+            throw new IllegalArgumentException("El ID del tipo de servicio es requerido");
         }
 
-        ServiceType existingServiceType = serviceTypeRepository.findById(serviceTypeId)
-                .orElseThrow(() -> new IllegalArgumentException("Tipo de servicio no encontrado con id: " + serviceTypeId));
-    }
-
-    // ========== REFLECTION HELPER ==========
-    private Long getEntityId(Object entity) {
-        if (entity == null) {
-            return null;
-        }
-        try {
-            // Intentar obtener el ID via reflection
-            Method getIdMethod = entity.getClass().getMethod("getId");
-            return (Long) getIdMethod.invoke(entity);
-        } catch (Exception e) {
-            log.warn("No se pudo obtener el ID del entity: {}", entity.getClass().getSimpleName());
-            return null;
+        if (dto.getPrice() == null || dto.getPrice() <= 0) {
+            throw new IllegalArgumentException("El precio debe ser mayor a cero");
         }
     }
 
-    // ========== COUNT METHODS ==========
     public long countActiveServices() {
         return serviceRepository.countByActiveTrue();
     }
