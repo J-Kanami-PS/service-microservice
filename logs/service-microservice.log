@@ -1,55 +1,216 @@
-2025-10-11 00:00:41 [main] INFO  o.e.c.s.ServiceMicroserviceApplicationTests - Starting ServiceMicroserviceApplicationTests using Java 21.0.8 with PID 18148 (started by HP in C:\Users\HP\IdeaProjects\service-microservice)
-2025-10-11 00:00:41 [main] DEBUG o.e.c.s.ServiceMicroserviceApplicationTests - Running with Spring Boot v3.3.4, Spring v6.1.13
-2025-10-11 00:00:41 [main] INFO  o.e.c.s.ServiceMicroserviceApplicationTests - No active profile set, falling back to 1 default profile: "default"
-2025-10-11 00:00:43 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-10-11 00:00:43 [main] DEBUG o.s.d.r.c.RepositoryConfigurationDelegate - Scanning for JPA repositories in packages org.example.cuidadodemascotas.servicemicroservice.apis.repository.
-2025-10-11 00:00:43 [main] DEBUG o.s.d.r.c.RepositoryComponentProvider - Identified candidate component class: file [C:\Users\HP\IdeaProjects\service-microservice\target\classes\org\example\cuidadodemascotas\servicemicroservice\apis\repository\ServiceRepository.class]
-2025-10-11 00:00:43 [main] DEBUG o.s.d.r.c.RepositoryComponentProvider - Identified candidate component class: file [C:\Users\HP\IdeaProjects\service-microservice\target\classes\org\example\cuidadodemascotas\servicemicroservice\apis\repository\ServiceTypeRepository.class]
-2025-10-11 00:00:43 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 77 ms. Found 2 JPA repository interfaces.
-2025-10-11 00:00:45 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-10-11 00:00:45 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.5.3.Final
-2025-10-11 00:00:45 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
-2025-10-11 00:00:46 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-10-11 00:00:46 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-2025-10-11 00:00:51 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@6ae42248
-2025-10-11 00:00:51 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-2025-10-11 00:00:52 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2025-10-11 00:00:55 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-10-11 00:00:55 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-10-11 00:00:55 [main] DEBUG o.s.d.j.r.c.JpaMetamodelMappingContextFactoryBean - Initializing JpaMetamodelMappingContext…
-2025-10-11 00:00:55 [main] DEBUG o.s.d.j.r.c.JpaMetamodelMappingContextFactoryBean - Finished initializing JpaMetamodelMappingContext
-2025-10-11 00:00:55 [main] DEBUG o.s.d.r.c.s.RepositoryFactorySupport - Initializing repository instance for org.example.cuidadodemascotas.servicemicroservice.apis.repository.ServiceRepository…
-2025-10-11 00:00:55 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
-2025-10-11 00:00:56 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Did not find named query Service.findByIdAndActiveTrue.count
-2025-10-11 00:00:56 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Did not find named query Service.searchByDescription.count
-2025-10-11 00:00:57 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Looking up named query Service.findByCarerIdAndActiveTrue
-2025-10-11 00:00:57 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Did not find named query Service.findByCarerIdAndActiveTrue
-2025-10-11 00:00:57 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Looking up named query Service.findByServiceTypeIdAndActiveTrue
-2025-10-11 00:00:57 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Did not find named query Service.findByServiceTypeIdAndActiveTrue
-2025-10-11 00:00:57 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Did not find named query Service.findByFilters.count
-2025-10-11 00:00:57 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Looking up named query Service.countByActiveTrue
-2025-10-11 00:00:57 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Did not find named query Service.countByActiveTrue
-2025-10-11 00:00:57 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Looking up named query Service.countByCarerIdAndActiveTrue
-2025-10-11 00:00:57 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Did not find named query Service.countByCarerIdAndActiveTrue
-2025-10-11 00:00:57 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Looking up named query Service.findByActiveTrue
-2025-10-11 00:00:57 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Did not find named query Service.findByActiveTrue
-2025-10-11 00:00:57 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Looking up named query Service.findByActiveTrue
-2025-10-11 00:00:57 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Did not find named query Service.findByActiveTrue
-2025-10-11 00:00:57 [main] DEBUG o.s.d.r.c.s.RepositoryFactorySupport - Finished creation of repository instance for org.example.cuidadodemascotas.servicemicroservice.apis.repository.ServiceRepository.
-2025-10-11 00:00:57 [main] DEBUG o.s.d.r.c.s.RepositoryFactorySupport - Initializing repository instance for org.example.cuidadodemascotas.servicemicroservice.apis.repository.ServiceTypeRepository…
-2025-10-11 00:00:57 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Looking up named query ServiceType.findAllByOrderByNameAsc
-2025-10-11 00:00:57 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Did not find named query ServiceType.findAllByOrderByNameAsc
-2025-10-11 00:00:57 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Looking up named query ServiceType.findAllByOrderByNameAsc
-2025-10-11 00:00:57 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Did not find named query ServiceType.findAllByOrderByNameAsc
-2025-10-11 00:00:57 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Looking up named query ServiceType.existsByNameAndIdNot
-2025-10-11 00:00:57 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Did not find named query ServiceType.existsByNameAndIdNot
-2025-10-11 00:00:57 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Looking up named query ServiceType.findByNameIgnoreCase
-2025-10-11 00:00:57 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Did not find named query ServiceType.findByNameIgnoreCase
-2025-10-11 00:00:57 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Looking up named query ServiceType.existsByName
-2025-10-11 00:00:57 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Did not find named query ServiceType.existsByName
-2025-10-11 00:00:57 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Did not find named query ServiceType.searchByName.count
-2025-10-11 00:00:57 [main] DEBUG o.s.d.r.c.s.RepositoryFactorySupport - Finished creation of repository instance for org.example.cuidadodemascotas.servicemicroservice.apis.repository.ServiceTypeRepository.
-2025-10-11 00:00:59 [main] INFO  o.e.c.s.ServiceMicroserviceApplicationTests - Started ServiceMicroserviceApplicationTests in 18.904 seconds (process running for 21.077)
-2025-10-11 00:01:00 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-2025-10-11 00:01:00 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-2025-10-11 00:01:02 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-10-14 16:53:27 [main] INFO  o.e.c.s.ServiceMicroserviceApplicationTests - Starting ServiceMicroserviceApplicationTests using Java 21.0.8 with PID 5720 (started by HP in C:\Users\HP\IdeaProjects\service-microservice)
+2025-10-14 16:53:27 [main] DEBUG o.e.c.s.ServiceMicroserviceApplicationTests - Running with Spring Boot v3.3.4, Spring v6.1.13
+2025-10-14 16:53:27 [main] INFO  o.e.c.s.ServiceMicroserviceApplicationTests - No active profile set, falling back to 1 default profile: "default"
+2025-10-14 16:53:29 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-10-14 16:53:29 [main] DEBUG o.s.d.r.c.RepositoryConfigurationDelegate - Scanning for JPA repositories in packages org.example.cuidadodemascotas.servicemicroservice.apis.repository.
+2025-10-14 16:53:29 [main] DEBUG o.s.d.r.c.RepositoryComponentProvider - Identified candidate component class: file [C:\Users\HP\IdeaProjects\service-microservice\target\classes\org\example\cuidadodemascotas\servicemicroservice\apis\repository\ICarerRepository.class]
+2025-10-14 16:53:29 [main] DEBUG o.s.d.r.c.RepositoryComponentProvider - Identified candidate component class: file [C:\Users\HP\IdeaProjects\service-microservice\target\classes\org\example\cuidadodemascotas\servicemicroservice\apis\repository\ServiceRepository.class]
+2025-10-14 16:53:29 [main] DEBUG o.s.d.r.c.RepositoryComponentProvider - Identified candidate component class: file [C:\Users\HP\IdeaProjects\service-microservice\target\classes\org\example\cuidadodemascotas\servicemicroservice\apis\repository\ServiceTypeRepository.class]
+2025-10-14 16:53:29 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 75 ms. Found 3 JPA repository interfaces.
+2025-10-14 16:53:31 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-10-14 16:53:31 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.5.3.Final
+2025-10-14 16:53:32 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-10-14 16:53:32 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-10-14 16:53:32 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-10-14 16:53:34 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@2976ef56
+2025-10-14 16:53:34 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-10-14 16:53:34 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-10-14 16:53:37 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-10-14 16:53:37 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-10-14 16:53:37 [main] DEBUG o.s.d.j.r.c.JpaMetamodelMappingContextFactoryBean - Initializing JpaMetamodelMappingContext…
+2025-10-14 16:53:37 [main] DEBUG o.s.d.j.r.c.JpaMetamodelMappingContextFactoryBean - Finished initializing JpaMetamodelMappingContext
+2025-10-14 16:53:37 [main] DEBUG o.s.d.r.c.s.RepositoryFactorySupport - Initializing repository instance for org.example.cuidadodemascotas.servicemicroservice.apis.repository.ServiceRepository…
+2025-10-14 16:53:37 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-10-14 16:53:38 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Did not find named query Service.findByIdAndActiveTrue.count
+2025-10-14 16:53:38 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Did not find named query Service.searchByDescription.count
+2025-10-14 16:53:39 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Looking up named query Service.findByCarerIdAndActiveTrue
+2025-10-14 16:53:39 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Did not find named query Service.findByCarerIdAndActiveTrue
+2025-10-14 16:53:39 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Looking up named query Service.findByServiceTypeIdAndActiveTrue
+2025-10-14 16:53:39 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Did not find named query Service.findByServiceTypeIdAndActiveTrue
+2025-10-14 16:53:39 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Looking up named query Service.countByCarerIdAndActiveTrue
+2025-10-14 16:53:39 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Did not find named query Service.countByCarerIdAndActiveTrue
+2025-10-14 16:53:39 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Did not find named query Service.findByFilters.count
+2025-10-14 16:53:39 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Looking up named query Service.countByActiveTrue
+2025-10-14 16:53:39 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Did not find named query Service.countByActiveTrue
+2025-10-14 16:53:39 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Looking up named query Service.findByActiveTrue
+2025-10-14 16:53:39 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Did not find named query Service.findByActiveTrue
+2025-10-14 16:53:39 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Looking up named query Service.findByActiveTrue
+2025-10-14 16:53:39 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Did not find named query Service.findByActiveTrue
+2025-10-14 16:53:39 [main] DEBUG o.s.d.r.c.s.RepositoryFactorySupport - Finished creation of repository instance for org.example.cuidadodemascotas.servicemicroservice.apis.repository.ServiceRepository.
+2025-10-14 16:53:39 [main] DEBUG o.s.d.r.c.s.RepositoryFactorySupport - Initializing repository instance for org.example.cuidadodemascotas.servicemicroservice.apis.repository.ICarerRepository…
+2025-10-14 16:53:39 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Looking up named query Carer.existsByIdAndActiveTrue
+2025-10-14 16:53:39 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Did not find named query Carer.existsByIdAndActiveTrue
+2025-10-14 16:53:39 [main] DEBUG o.s.d.r.c.s.RepositoryFactorySupport - Finished creation of repository instance for org.example.cuidadodemascotas.servicemicroservice.apis.repository.ICarerRepository.
+2025-10-14 16:53:39 [main] DEBUG o.s.d.r.c.s.RepositoryFactorySupport - Initializing repository instance for org.example.cuidadodemascotas.servicemicroservice.apis.repository.ServiceTypeRepository…
+2025-10-14 16:53:39 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Looking up named query ServiceType.existsByNameAndIdNot
+2025-10-14 16:53:39 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Did not find named query ServiceType.existsByNameAndIdNot
+2025-10-14 16:53:39 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Looking up named query ServiceType.findByNameIgnoreCase
+2025-10-14 16:53:39 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Did not find named query ServiceType.findByNameIgnoreCase
+2025-10-14 16:53:39 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Looking up named query ServiceType.findAllByOrderByNameAsc
+2025-10-14 16:53:39 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Did not find named query ServiceType.findAllByOrderByNameAsc
+2025-10-14 16:53:39 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Looking up named query ServiceType.findAllByOrderByNameAsc
+2025-10-14 16:53:39 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Did not find named query ServiceType.findAllByOrderByNameAsc
+2025-10-14 16:53:39 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Looking up named query ServiceType.existsByName
+2025-10-14 16:53:39 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Did not find named query ServiceType.existsByName
+2025-10-14 16:53:39 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Did not find named query ServiceType.searchByName.count
+2025-10-14 16:53:39 [main] DEBUG o.s.d.r.c.s.RepositoryFactorySupport - Finished creation of repository instance for org.example.cuidadodemascotas.servicemicroservice.apis.repository.ServiceTypeRepository.
+2025-10-14 16:53:41 [main] INFO  o.e.c.s.ServiceMicroserviceApplicationTests - Started ServiceMicroserviceApplicationTests in 14.638 seconds (process running for 16.978)
+2025-10-14 16:53:42 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-10-14 16:53:42 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-10-14 16:53:42 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-10-14 16:55:37 [main] INFO  o.e.c.s.ServiceMicroserviceApplication - Starting ServiceMicroserviceApplication v1.0.0 using Java 24.0.1 with PID 7276 (C:\Users\HP\IdeaProjects\service-microservice\target\service-microservice-1.0.0.jar started by HP in C:\Users\HP\IdeaProjects\service-microservice)
+2025-10-14 16:55:37 [main] DEBUG o.e.c.s.ServiceMicroserviceApplication - Running with Spring Boot v3.3.4, Spring v6.1.13
+2025-10-14 16:55:37 [main] INFO  o.e.c.s.ServiceMicroserviceApplication - No active profile set, falling back to 1 default profile: "default"
+2025-10-14 16:55:39 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-10-14 16:55:39 [main] DEBUG o.s.d.r.c.RepositoryConfigurationDelegate - Scanning for JPA repositories in packages org.example.cuidadodemascotas.servicemicroservice.apis.repository.
+2025-10-14 16:55:39 [main] DEBUG o.s.d.r.c.RepositoryComponentProvider - Identified candidate component class: URL [jar:nested:/C:/Users/HP/IdeaProjects/service-microservice/target/service-microservice-1.0.0.jar/!BOOT-INF/classes/!/org/example/cuidadodemascotas/servicemicroservice/apis/repository/ICarerRepository.class]
+2025-10-14 16:55:39 [main] DEBUG o.s.d.r.c.RepositoryComponentProvider - Identified candidate component class: URL [jar:nested:/C:/Users/HP/IdeaProjects/service-microservice/target/service-microservice-1.0.0.jar/!BOOT-INF/classes/!/org/example/cuidadodemascotas/servicemicroservice/apis/repository/ServiceRepository.class]
+2025-10-14 16:55:39 [main] DEBUG o.s.d.r.c.RepositoryComponentProvider - Identified candidate component class: URL [jar:nested:/C:/Users/HP/IdeaProjects/service-microservice/target/service-microservice-1.0.0.jar/!BOOT-INF/classes/!/org/example/cuidadodemascotas/servicemicroservice/apis/repository/ServiceTypeRepository.class]
+2025-10-14 16:55:39 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 200 ms. Found 3 JPA repository interfaces.
+2025-10-14 16:55:42 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8083 (http)
+2025-10-14 16:55:43 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-10-14 16:55:43 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.30]
+2025-10-14 16:55:43 [main] INFO  o.a.c.c.C.[.[localhost].[/api/v1] - Initializing Spring embedded WebApplicationContext
+2025-10-14 16:55:43 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 5873 ms
+2025-10-14 16:55:43 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-10-14 16:55:44 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.5.3.Final
+2025-10-14 16:55:44 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-10-14 16:55:44 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-10-14 16:55:45 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-10-14 16:55:46 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@52657d5f
+2025-10-14 16:55:46 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-10-14 16:55:46 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-10-14 16:55:49 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-10-14 16:55:49 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-10-14 16:55:49 [main] DEBUG o.s.d.j.r.c.JpaMetamodelMappingContextFactoryBean - Initializing JpaMetamodelMappingContext…
+2025-10-14 16:55:50 [main] DEBUG o.s.d.j.r.c.JpaMetamodelMappingContextFactoryBean - Finished initializing JpaMetamodelMappingContext
+2025-10-14 16:55:50 [main] DEBUG o.s.d.r.c.s.RepositoryFactorySupport - Initializing repository instance for org.example.cuidadodemascotas.servicemicroservice.apis.repository.ServiceRepository…
+2025-10-14 16:55:50 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-10-14 16:55:51 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Did not find named query Service.findByFilters.count
+2025-10-14 16:55:52 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Looking up named query Service.findByServiceTypeIdAndActiveTrue
+2025-10-14 16:55:52 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Did not find named query Service.findByServiceTypeIdAndActiveTrue
+2025-10-14 16:55:52 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Looking up named query Service.countByCarerIdAndActiveTrue
+2025-10-14 16:55:52 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Did not find named query Service.countByCarerIdAndActiveTrue
+2025-10-14 16:55:52 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Looking up named query Service.findByCarerIdAndActiveTrue
+2025-10-14 16:55:52 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Did not find named query Service.findByCarerIdAndActiveTrue
+2025-10-14 16:55:52 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Did not find named query Service.findByIdAndActiveTrue.count
+2025-10-14 16:55:52 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Looking up named query Service.countByActiveTrue
+2025-10-14 16:55:52 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Did not find named query Service.countByActiveTrue
+2025-10-14 16:55:52 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Did not find named query Service.searchByDescription.count
+2025-10-14 16:55:52 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Looking up named query Service.findByActiveTrue
+2025-10-14 16:55:52 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Did not find named query Service.findByActiveTrue
+2025-10-14 16:55:52 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Looking up named query Service.findByActiveTrue
+2025-10-14 16:55:52 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Did not find named query Service.findByActiveTrue
+2025-10-14 16:55:52 [main] DEBUG o.s.d.r.c.s.RepositoryFactorySupport - Finished creation of repository instance for org.example.cuidadodemascotas.servicemicroservice.apis.repository.ServiceRepository.
+2025-10-14 16:55:52 [main] DEBUG o.s.d.r.c.s.RepositoryFactorySupport - Initializing repository instance for org.example.cuidadodemascotas.servicemicroservice.apis.repository.ICarerRepository…
+2025-10-14 16:55:52 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Looking up named query Carer.existsByIdAndActiveTrue
+2025-10-14 16:55:52 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Did not find named query Carer.existsByIdAndActiveTrue
+2025-10-14 16:55:52 [main] DEBUG o.s.d.r.c.s.RepositoryFactorySupport - Finished creation of repository instance for org.example.cuidadodemascotas.servicemicroservice.apis.repository.ICarerRepository.
+2025-10-14 16:55:52 [main] DEBUG o.s.d.r.c.s.RepositoryFactorySupport - Initializing repository instance for org.example.cuidadodemascotas.servicemicroservice.apis.repository.ServiceTypeRepository…
+2025-10-14 16:55:52 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Did not find named query ServiceType.searchByName.count
+2025-10-14 16:55:52 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Looking up named query ServiceType.findAllByOrderByNameAsc
+2025-10-14 16:55:52 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Did not find named query ServiceType.findAllByOrderByNameAsc
+2025-10-14 16:55:52 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Looking up named query ServiceType.findAllByOrderByNameAsc
+2025-10-14 16:55:52 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Did not find named query ServiceType.findAllByOrderByNameAsc
+2025-10-14 16:55:53 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Looking up named query ServiceType.existsByName
+2025-10-14 16:55:53 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Did not find named query ServiceType.existsByName
+2025-10-14 16:55:53 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Looking up named query ServiceType.existsByNameAndIdNot
+2025-10-14 16:55:53 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Did not find named query ServiceType.existsByNameAndIdNot
+2025-10-14 16:55:53 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Looking up named query ServiceType.findByNameIgnoreCase
+2025-10-14 16:55:53 [main] DEBUG o.s.d.j.repository.query.NamedQuery - Did not find named query ServiceType.findByNameIgnoreCase
+2025-10-14 16:55:53 [main] DEBUG o.s.d.r.c.s.RepositoryFactorySupport - Finished creation of repository instance for org.example.cuidadodemascotas.servicemicroservice.apis.repository.ServiceTypeRepository.
+2025-10-14 16:55:55 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8083 (http) with context path '/api/v1'
+2025-10-14 16:55:55 [main] INFO  o.e.c.s.ServiceMicroserviceApplication - Started ServiceMicroserviceApplication in 19.287 seconds (process running for 20.797)
+2025-10-14 16:55:55 [main] INFO  o.e.c.s.ServiceMicroserviceApplication - ========================================
+2025-10-14 16:55:55 [main] INFO  o.e.c.s.ServiceMicroserviceApplication - Service Microservice Started Successfully!
+2025-10-14 16:55:55 [main] INFO  o.e.c.s.ServiceMicroserviceApplication - Swagger UI: http://localhost:8083/api/v1/swagger-ui.html
+2025-10-14 16:55:55 [main] INFO  o.e.c.s.ServiceMicroserviceApplication - API Docs: http://localhost:8083/api/v1/api-docs
+2025-10-14 16:55:55 [main] INFO  o.e.c.s.ServiceMicroserviceApplication - ========================================
+2025-10-14 16:56:01 [http-nio-8083-exec-1] INFO  o.a.c.c.C.[.[localhost].[/api/v1] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-10-14 16:56:01 [http-nio-8083-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-10-14 16:56:01 [http-nio-8083-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-10-14 16:56:11 [http-nio-8083-exec-9] INFO  o.s.api.AbstractOpenApiResource - Init duration for springdoc-openapi is: 7441 ms
+2025-10-14 16:58:15 [http-nio-8083-exec-6] INFO  o.e.c.s.a.c.ServiceTypeController - GET /service-types - Getting service types (page: 0, size: 20)
+2025-10-14 16:58:15 [http-nio-8083-exec-6] DEBUG o.e.c.s.a.service.ServiceTypeService - Finding all service types (page: 0, size: 20)
+2025-10-14 16:58:15 [http-nio-8083-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        st1_0.id_service_type,
+        st1_0.name 
+    from
+        public.service_types st1_0 
+    order by
+        st1_0.name 
+    fetch
+        first ? rows only
+2025-10-14 16:58:16 [http-nio-8083-exec-6] DEBUG o.e.c.s.a.c.ServiceTypeController - Returning 3 service types
+2025-10-14 17:03:30 [http-nio-8083-exec-5] INFO  o.e.c.s.a.c.ServiceTypeController - GET /service-types - Getting service types (page: 0, size: 20)
+2025-10-14 17:03:30 [http-nio-8083-exec-5] DEBUG o.e.c.s.a.service.ServiceTypeService - Finding all service types (page: 0, size: 20)
+2025-10-14 17:03:30 [http-nio-8083-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        st1_0.id_service_type,
+        st1_0.name 
+    from
+        public.service_types st1_0 
+    order by
+        st1_0.name 
+    fetch
+        first ? rows only
+2025-10-14 17:03:30 [http-nio-8083-exec-5] DEBUG o.e.c.s.a.c.ServiceTypeController - Returning 3 service types
+2025-10-14 17:03:43 [http-nio-8083-exec-3] INFO  o.e.c.s.a.c.ServiceTypeController - GET /service-types - Getting service types (page: 0, size: 20)
+2025-10-14 17:03:43 [http-nio-8083-exec-3] DEBUG o.e.c.s.a.service.ServiceTypeService - Finding all service types (page: 0, size: 20)
+2025-10-14 17:03:43 [http-nio-8083-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        st1_0.id_service_type,
+        st1_0.name 
+    from
+        public.service_types st1_0 
+    order by
+        st1_0.name 
+    fetch
+        first ? rows only
+2025-10-14 17:03:43 [http-nio-8083-exec-3] DEBUG o.e.c.s.a.c.ServiceTypeController - Returning 3 service types
+2025-10-14 17:04:01 [http-nio-8083-exec-8] INFO  o.e.c.s.a.c.ServiceTypeController - GET /service-types - Getting service types (page: 0, size: 20)
+2025-10-14 17:04:01 [http-nio-8083-exec-8] DEBUG o.e.c.s.a.service.ServiceTypeService - Finding all service types (page: 0, size: 20)
+2025-10-14 17:04:01 [http-nio-8083-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        st1_0.id_service_type,
+        st1_0.name 
+    from
+        public.service_types st1_0 
+    order by
+        st1_0.name 
+    fetch
+        first ? rows only
+2025-10-14 17:04:01 [http-nio-8083-exec-8] DEBUG o.e.c.s.a.c.ServiceTypeController - Returning 3 service types
+2025-10-14 17:07:55 [http-nio-8083-exec-2] INFO  o.e.c.s.a.c.ServiceTypeController - PUT /service-types/1 - Updating service type
+2025-10-14 17:07:55 [http-nio-8083-exec-2] INFO  o.e.c.s.a.service.ServiceTypeService - Updating service type with id: 1
+2025-10-14 17:07:55 [http-nio-8083-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        st1_0.id_service_type,
+        st1_0.name 
+    from
+        public.service_types st1_0 
+    where
+        st1_0.id_service_type=?
+2025-10-14 17:07:55 [http-nio-8083-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        st1_0.id_service_type 
+    from
+        public.service_types st1_0 
+    where
+        st1_0.name=? 
+        and st1_0.id_service_type<>? 
+    fetch
+        first ? rows only
+2025-10-14 17:07:56 [http-nio-8083-exec-2] INFO  o.e.c.s.a.service.ServiceTypeService - Service type updated successfully: 1
+2025-10-14 17:07:56 [http-nio-8083-exec-2] DEBUG org.hibernate.SQL - 
+    update
+        public.service_types 
+    set
+        name=? 
+    where
+        id_service_type=?
+2025-10-14 17:07:56 [http-nio-8083-exec-2] INFO  o.e.c.s.a.c.ServiceTypeController - Service type updated successfully: 1
+2025-10-14 17:11:40 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-10-14 17:11:40 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-10-14 17:11:40 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.

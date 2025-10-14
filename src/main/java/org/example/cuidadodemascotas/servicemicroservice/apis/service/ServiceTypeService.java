@@ -103,4 +103,24 @@ public class ServiceTypeService {
         repository.delete(entity);
         log.info("Service type deleted successfully: {}", id);
     }
+
+    public ServiceTypeResponseDTO findByName(String name) {
+        log.debug("Finding service type by name: {}", name);
+        ServiceType entity = repository.findByNameIgnoreCase(name)
+                .orElseThrow(() -> new org.example.cuidadodemascotas.servicemicroservice.exception.NotFoundException(
+                        "ServiceType no encontrado con nombre: " + name));
+        return mapper.toDto(entity);
+    }
+
+    public boolean existsByName(String name) {
+        return repository.existsByName(name);
+    }
+
+    public java.util.List<ServiceTypeResponseDTO> findAllOrdered() {
+        log.debug("Finding all service types ordered by name");
+        return repository.findAllByOrderByNameAsc()
+                .stream()
+                .map(mapper::toDto)
+                .toList();
+    }
 }

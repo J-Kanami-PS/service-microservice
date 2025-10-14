@@ -5,6 +5,8 @@ import org.example.cuidadodemascota.commons.entities.service.Service;
 import org.example.cuidadodemascotas.servicemicroservice.apis.dto.ServiceRequestDTO;
 import org.example.cuidadodemascotas.servicemicroservice.apis.dto.ServiceResponseDTO;
 import org.example.cuidadodemascotas.servicemicroservice.apis.repository.ServiceRepository;
+import org.example.cuidadodemascotas.servicemicroservice.apis.repository.ServiceTypeRepository;
+import org.example.cuidadodemascotas.servicemicroservice.apis.repository.ICarerRepository;
 import org.example.cuidadodemascotas.servicemicroservice.exception.NotFoundException;
 import org.example.cuidadodemascotas.servicemicroservice.utils.ServiceMapper;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Slf4j
 @Component
@@ -22,6 +25,8 @@ public class ServiceService extends AbstractBaseService<Service, ServiceResponse
 
     private final ServiceRepository serviceRepository;
     private final ServiceMapper serviceMapper;
+    private final ICarerRepository iCarerRepository;
+    private final ServiceTypeRepository serviceTypeRepository;
 
     @Value("${pagination.size.service.list:10}")
     private int defaultPageSize;
@@ -29,10 +34,16 @@ public class ServiceService extends AbstractBaseService<Service, ServiceResponse
     @Value("${pagination.size.service.search:10}")
     private int searchPageSize;
 
-    public ServiceService(ServiceRepository repository, ServiceMapper mapper) {
+    public ServiceService(
+            ServiceRepository repository,
+            ServiceMapper mapper,
+            ICarerRepository iCarerRepository,
+            ServiceTypeRepository serviceTypeRepository) {
         super(repository, Service.class, mapper);
         this.serviceRepository = repository;
         this.serviceMapper = mapper;
+        this.iCarerRepository = iCarerRepository;
+        this.serviceTypeRepository = serviceTypeRepository;
     }
 
     @Transactional
@@ -128,5 +139,21 @@ public class ServiceService extends AbstractBaseService<Service, ServiceResponse
 
     public long countActiveServicesByCarer(Long carerId) {
         return serviceRepository.countByCarerIdAndActiveTrue(carerId);
+    }
+
+    public List<ServiceResponseDTO> findByCarerId(Long carerId) {
+        log.debug("Finding services by carer id: {}", carerId);
+        List<Service> services = serviceRepository.findByCarerIdAndActiveTrue(carerId);
+        return services.stream()
+                .map(serviceMapper::toDto)
+                .toList();
+    }
+
+    public List<ServiceResponseDTO> findByServiceTypeId(Long serviceTypeId) {
+        log.debug("Finding services by service type id: {}", serviceTypeId);
+        List<Service> services = serviceRepository.findByServiceTypeIdAndActiveTrue(serviceTypeId);
+        return services.stream()
+                .map(serviceMapper::toDto)
+                .toList();
     }
 }
