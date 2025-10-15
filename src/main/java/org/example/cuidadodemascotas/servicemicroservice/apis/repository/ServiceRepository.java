@@ -17,7 +17,6 @@ import java.util.Optional;
 public interface ServiceRepository extends IBaseRepository<Service>,
         JpaSpecificationExecutor<Service> {
 
-    // Sobrescribir para mejorar el query
     @Override
     @Query("SELECT s FROM Service s WHERE s.id = :id AND s.active = true")
     Optional<Service> findByIdAndActiveTrue(@Param("id") Long id);
