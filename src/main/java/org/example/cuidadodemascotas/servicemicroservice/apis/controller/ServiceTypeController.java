@@ -48,7 +48,7 @@ public class ServiceTypeController implements ServiceTypeApi {
         int pageNumber = (page != null && page >= 0) ? page : 0;
         int pageSize = (size != null && size > 0) ? size : 20;
 
-        Page<ServiceTypeResponseDTO> pageResult = serviceTypeService.findAll(pageNumber, pageSize);
+        Page<ServiceTypeResponseDTO> pageResult = serviceTypeService.findAll(pageNumber, pageSize, sort);
 
         ServiceTypeResponseList response = new ServiceTypeResponseList();
         response.setContent(pageResult.getContent());
