@@ -67,6 +67,107 @@ public class ServiceService extends AbstractBaseService<Service, ServiceResponse
         return serviceMapper.toDto(entity);
     }
 
+    // ==================== MÉTODOS - PATH PARAMETERS ====================
+
+    /**
+     * Obtener todos los servicios con paginación
+     * GET /services?page=0&size=10
+     */
+    public Page<ServiceResponseDTO> findAll(int page, int size) {
+        log.debug("Finding all services (page: {}, size: {})", page, size);
+
+        int pageSize = size > 0 ? size : defaultPageSize;
+        PageRequest pageable = PageRequest.of(page, pageSize);
+
+        Page<Service> entityPage = serviceRepository.findAllServices(pageable);
+        return entityPage.map(serviceMapper::toDto);
+    }
+
+    /**
+     * Obtener servicios por cuidador con paginación
+     * GET /services/carer/{carerId}?page=0&size=10
+     */
+    public Page<ServiceResponseDTO> findByCarerId(Long carerId, int page, int size) {
+        log.debug("Finding services by carer id: {} (page: {}, size: {})", carerId, page, size);
+
+        int pageSize = size > 0 ? size : defaultPageSize;
+        PageRequest pageable = PageRequest.of(page, pageSize);
+
+        Page<Service> entityPage = serviceRepository.findByCarerIdPaged(carerId, pageable);
+        return entityPage.map(serviceMapper::toDto);
+    }
+
+    /**
+     * Obtener servicios por tipo de servicio con paginación
+     * GET /services/type/{serviceTypeId}?page=0&size=10
+     */
+    public Page<ServiceResponseDTO> findByServiceTypeId(Long serviceTypeId, int page, int size) {
+        log.debug("Finding services by service type id: {} (page: {}, size: {})", serviceTypeId, page, size);
+
+        int pageSize = size > 0 ? size : defaultPageSize;
+        PageRequest pageable = PageRequest.of(page, pageSize);
+
+        Page<Service> entityPage = serviceRepository.findByServiceTypeIdPaged(serviceTypeId, pageable);
+        return entityPage.map(serviceMapper::toDto);
+    }
+
+    /**
+     * Obtener servicios por rango de precio con paginación
+     * GET /services/price-range/{minPrice}/{maxPrice}?page=0&size=10
+     */
+    public Page<ServiceResponseDTO> findByPriceRange(BigDecimal minPrice, BigDecimal maxPrice, int page, int size) {
+        log.debug("Finding services by price range: {} - {} (page: {}, size: {})", minPrice, maxPrice, page, size);
+
+        if (minPrice == null || maxPrice == null) {
+            throw new IllegalArgumentException("Precio mínimo y máximo son requeridos");
+        }
+
+        if (minPrice.compareTo(maxPrice) > 0) {
+            throw new IllegalArgumentException("Precio mínimo no puede ser mayor que precio máximo");
+        }
+
+        int pageSize = size > 0 ? size : defaultPageSize;
+        PageRequest pageable = PageRequest.of(page, pageSize);
+
+        Page<Service> entityPage = serviceRepository.findByPriceRangePaged(minPrice, maxPrice, pageable);
+        return entityPage.map(serviceMapper::toDto);
+    }
+
+    /**
+     * Obtener servicios por cuidador y tipo de servicio con paginación
+     * GET /services/carer/{carerId}/type/{serviceTypeId}?page=0&size=10
+     */
+    public Page<ServiceResponseDTO> findByCarerAndType(Long carerId, Long serviceTypeId, int page, int size) {
+        log.debug("Finding services by carer {} and type {} (page: {}, size: {})",
+                carerId, serviceTypeId, page, size);
+
+        int pageSize = size > 0 ? size : defaultPageSize;
+        PageRequest pageable = PageRequest.of(page, pageSize);
+
+        Page<Service> entityPage = serviceRepository.findByCarerIdAndServiceTypeIdPaged(
+                carerId, serviceTypeId, pageable);
+        return entityPage.map(serviceMapper::toDto);
+    }
+
+    /**
+     * Búsqueda por descripción (mantiene funcionalidad anterior)
+     */
+    public Page<ServiceResponseDTO> searchByDescription(String text, int page, int size) {
+        log.debug("Searching services by description: {}", text);
+
+        int pageSize = size > 0 ? size : searchPageSize;
+        PageRequest pageable = PageRequest.of(page, pageSize);
+
+        Page<Service> entityPage = serviceRepository.searchByDescription(text, pageable);
+        return entityPage.map(serviceMapper::toDto);
+    }
+
+    // ==================== MÉTODOS PARA MANTENER COMPATIBILIDAD ====================
+
+    /**
+     * Método antiguo con filtros opcionales
+     * Se mantiene por compatibilidad pero ya no se usa en endpoints
+     */
     public Page<ServiceResponseDTO> findByFilters(
             Long carerId,
             Long serviceTypeId,
@@ -84,16 +185,6 @@ public class ServiceService extends AbstractBaseService<Service, ServiceResponse
         Page<Service> entityPage = serviceRepository.findByFilters(
                 carerId, serviceTypeId, minPrice, maxPrice, pageable);
 
-        return entityPage.map(serviceMapper::toDto);
-    }
-
-    public Page<ServiceResponseDTO> searchByDescription(String text, int page, int size) {
-        log.debug("Searching services by description: {}", text);
-
-        int pageSize = size > 0 ? size : searchPageSize;
-        PageRequest pageable = PageRequest.of(page, pageSize);
-
-        Page<Service> entityPage = serviceRepository.searchByDescription(text, pageable);
         return entityPage.map(serviceMapper::toDto);
     }
 
@@ -133,12 +224,26 @@ public class ServiceService extends AbstractBaseService<Service, ServiceResponse
         }
     }
 
+    // ==================== MÉTODOS AUXILIARES ====================
+
     public long countActiveServices() {
         return serviceRepository.countByActiveTrue();
     }
 
     public long countActiveServicesByCarer(Long carerId) {
         return serviceRepository.countByCarerIdAndActiveTrue(carerId);
+    }
+
+    public long countServicesByCarer(Long carerId) {
+        return serviceRepository.countByCarerId(carerId);
+    }
+
+    public long countServicesByServiceType(Long serviceTypeId) {
+        return serviceRepository.countByServiceTypeId(serviceTypeId);
+    }
+
+    public long countServicesByPriceRange(BigDecimal minPrice, BigDecimal maxPrice) {
+        return serviceRepository.countByPriceRange(minPrice, maxPrice);
     }
 
     public List<ServiceResponseDTO> findByCarerId(Long carerId) {
