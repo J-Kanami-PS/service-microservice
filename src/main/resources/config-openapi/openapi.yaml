@@ -1,0 +1,708 @@
+openapi: 3.0.3
+info:
+  title: Service Microservice API
+  description: Microservicio para gestión de servicios y tipos de servicios
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8083/api/v1
+    description: Servicio de Gestión de Servicios
+
+paths:
+  # ==================== SERVICE TYPES ====================
+  /service-types:
+    get:
+      tags:
+        - ServiceType
+      summary: Obtener todos los tipos de servicio con paginación
+      operationId: getServiceTypes
+      parameters:
+        - name: page
+          in: query
+          required: false
+          description: Número de página (base 0)
+          schema:
+            type: integer
+            default: 0
+        - name: size
+          in: query
+          required: false
+          description: Tamaño de la página
+          schema:
+            type: integer
+            default: 20
+        - name: sort
+          in: query
+          required: false
+          description: Campo para ordenar (ej. name,asc)
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Tipos de servicio obtenidos exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceTypeResponseList'
+        '500':
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+
+    post:
+      tags:
+        - ServiceType
+      summary: Crear un nuevo tipo de servicio
+      operationId: createServiceType
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceTypeRequestDTO'
+      responses:
+        '201':
+          description: Tipo de servicio creado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceTypeResponseDTO'
+        '400':
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+
+  /service-types/{id}:
+    get:
+      tags:
+        - ServiceType
+      summary: Obtener un tipo de servicio por ID
+      operationId: getServiceTypeById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del tipo de servicio
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Tipo de servicio obtenido exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceTypeResponseDTO'
+        '404':
+          description: Tipo de servicio no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+
+    put:
+      tags:
+        - ServiceType
+      summary: Actualizar un tipo de servicio
+      operationId: updateServiceType
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del tipo de servicio
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceTypeRequestDTO'
+      responses:
+        '200':
+          description: Tipo de servicio actualizado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceTypeResponseDTO'
+        '404':
+          description: Tipo de servicio no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '400':
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+
+    delete:
+      tags:
+        - ServiceType
+      summary: Eliminar un tipo de servicio
+      operationId: deleteServiceType
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del tipo de servicio
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Tipo de servicio eliminado exitosamente
+        '404':
+          description: Tipo de servicio no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+
+  # ==================== SERVICES ====================
+  /services:
+    get:
+      tags:
+        - Service
+      summary: Obtener todos los servicios con paginación
+      operationId: getServices
+      parameters:
+        - name: page
+          in: query
+          required: false
+          description: Número de página (base 0)
+          schema:
+            type: integer
+            default: 0
+        - name: size
+          in: query
+          required: false
+          description: Tamaño de la página
+          schema:
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: Servicios obtenidos exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceResponseList'
+        '500':
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+
+    post:
+      tags:
+        - Service
+      summary: Crear un nuevo servicio
+      operationId: createService
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceRequestDTO'
+      responses:
+        '201':
+          description: Servicio creado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceResponseDTO'
+        '400':
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '404':
+          description: Cuidador o tipo de servicio no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+
+  /services/{id}:
+    get:
+      tags:
+        - Service
+      summary: Obtener un servicio por ID
+      operationId: getServiceById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del servicio
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Servicio obtenido exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceResponseDTO'
+        '404':
+          description: Servicio no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+
+    put:
+      tags:
+        - Service
+      summary: Actualizar un servicio
+      operationId: updateService
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del servicio
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceRequestDTO'
+      responses:
+        '200':
+          description: Servicio actualizado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceResponseDTO'
+        '404':
+          description: Servicio no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '400':
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+
+    delete:
+      tags:
+        - Service
+      summary: Eliminar lógicamente un servicio
+      operationId: deleteService
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del servicio
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Servicio eliminado exitosamente
+        '404':
+          description: Servicio no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+
+  # ==================== SERVICES - FILTROS SIN QUERY STRING ====================
+  /services/carer/{carerId}:
+    get:
+      tags:
+        - Service
+      summary: Obtener servicios filtrados por cuidador
+      operationId: getServicesByCarerId
+      parameters:
+        - name: carerId
+          in: path
+          required: true
+          description: ID del cuidador
+          schema:
+            type: integer
+            format: int64
+        - name: page
+          in: query
+          required: false
+          description: Número de página (base 0)
+          schema:
+            type: integer
+            default: 0
+        - name: size
+          in: query
+          required: false
+          description: Tamaño de la página
+          schema:
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: Servicios del cuidador obtenidos exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceResponseList'
+        '404':
+          description: Cuidador no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+
+  /services/type/{serviceTypeId}:
+    get:
+      tags:
+        - Service
+      summary: Obtener servicios filtrados por tipo de servicio
+      operationId: getServicesByServiceTypeId
+      parameters:
+        - name: serviceTypeId
+          in: path
+          required: true
+          description: ID del tipo de servicio
+          schema:
+            type: integer
+            format: int64
+        - name: page
+          in: query
+          required: false
+          description: Número de página (base 0)
+          schema:
+            type: integer
+            default: 0
+        - name: size
+          in: query
+          required: false
+          description: Tamaño de la página
+          schema:
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: Servicios del tipo obtenidos exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceResponseList'
+        '404':
+          description: Tipo de servicio no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+
+  /services/price-range/{minPrice}/{maxPrice}:
+    get:
+      tags:
+        - Service
+      summary: Obtener servicios filtrados por rango de precio
+      operationId: getServicesByPriceRange
+      parameters:
+        - name: minPrice
+          in: path
+          required: true
+          description: Precio mínimo
+          schema:
+            type: number
+            format: double
+        - name: maxPrice
+          in: path
+          required: true
+          description: Precio máximo
+          schema:
+            type: number
+            format: double
+        - name: page
+          in: query
+          required: false
+          description: Número de página (base 0)
+          schema:
+            type: integer
+            default: 0
+        - name: size
+          in: query
+          required: false
+          description: Tamaño de la página
+          schema:
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: Servicios en rango de precio obtenidos exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceResponseList'
+        '400':
+          description: Rango de precio inválido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+
+  /services/carer/{carerId}/type/{serviceTypeId}:
+    get:
+      tags:
+        - Service
+      summary: Obtener servicios filtrados por cuidador y tipo
+      operationId: getServicesByCarerAndType
+      parameters:
+        - name: carerId
+          in: path
+          required: true
+          description: ID del cuidador
+          schema:
+            type: integer
+            format: int64
+        - name: serviceTypeId
+          in: path
+          required: true
+          description: ID del tipo de servicio
+          schema:
+            type: integer
+            format: int64
+        - name: page
+          in: query
+          required: false
+          description: Número de página (base 0)
+          schema:
+            type: integer
+            default: 0
+        - name: size
+          in: query
+          required: false
+          description: Tamaño de la página
+          schema:
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: Servicios obtenidos exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceResponseList'
+        '404':
+          description: Cuidador o tipo de servicio no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+
+components:
+  schemas:
+    # ==================== COMMON ====================
+    ApiError:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        status:
+          type: integer
+        error:
+          type: string
+        message:
+          type: string
+        path:
+          type: string
+
+    # ==================== SERVICE TYPE ====================
+    ServiceTypeRequestDTO:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          maxLength: 100
+          example: "Paseo de mascotas"
+
+    ServiceTypeResponseDTO:
+      allOf:
+        - $ref: '#/components/schemas/BaseDTO'
+        - type: object
+          properties:
+            name:
+              type: string
+
+    ServiceTypeResponseList:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceTypeResponseDTO'
+        totalElements:
+          type: integer
+        totalPages:
+          type: integer
+        size:
+          type: integer
+        number:
+          type: integer
+
+    # ==================== SERVICE ====================
+    ServiceRequestDTO:
+      type: object
+      required:
+        - carerId
+        - serviceTypeId
+        - price
+      properties:
+        carerId:
+          type: integer
+          format: int64
+        serviceTypeId:
+          type: integer
+          format: int64
+        description:
+          type: string
+        price:
+          type: number
+          format: double
+          minimum: 0
+
+    ServiceResponseDTO:
+      allOf:
+        - $ref: '#/components/schemas/AbstractDTO'
+        - type: object
+          properties:
+            carerId:
+              type: integer
+              format: int64
+            serviceTypeId:
+              type: integer
+              format: int64
+            description:
+              type: string
+            price:
+              type: number
+              format: double
+
+    ServiceResponseList:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceResponseDTO'
+        totalElements:
+          type: integer
+        totalPages:
+          type: integer
+        size:
+          type: integer
+        number:
+          type: integer
+
+    # ==================== BASE DTOs (From Commons) ====================
+    BaseDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+
+    AbstractDTO:
+      allOf:
+        - $ref: '#/components/schemas/BaseDTO'
+        - type: object
+          properties:
+            createdAt:
+              type: string
+              format: date-time
+            updatedAt:
+              type: string
+              format: date-time
+            active:
+              type: boolean
