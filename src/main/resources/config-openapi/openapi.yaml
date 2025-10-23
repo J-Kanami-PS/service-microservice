@@ -578,6 +578,133 @@ paths:
               schema:
                 $ref: '#/components/schemas/ApiError'
 
+  # ==================== CARER WITH SERVICES (CABECERA-DETALLE) ====================
+  /carers-with-services:
+    post:
+      tags:
+        - Carer
+      summary: Crear un cuidador con sus servicios (cabecera-detalle)
+      description: |
+        Endpoint para crear un cuidador junto con todos sus servicios en una sola transacción.
+        Cumple con el criterio: "Guardar nuevos objetos mucho a mucho (un solo endpoint para guardar cabecera-detalle)".
+      operationId: createCarerWithServices
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CarerWithServicesRequestDTO'
+      responses:
+        '201':
+          description: Cuidador creado exitosamente con sus servicios
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CarerWithServicesResponseDTO'
+        '400':
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '404':
+          description: Usuario o tipo de servicio no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+
+  /carers-with-services/{carerId}:
+    get:
+      tags:
+        - Carer
+      summary: Obtener un cuidador con todos sus servicios
+      description: |
+        Endpoint para obtener un cuidador junto con todos sus servicios asociados.
+        Cumple con el criterio: "Obtener objeto relación mucho a mucho por id".
+      operationId: getCarerWithServices
+      parameters:
+        - name: carerId
+          in: path
+          required: true
+          description: ID del cuidador
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Cuidador obtenido exitosamente con sus servicios
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CarerWithServicesResponseDTO'
+        '404':
+          description: Cuidador no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+
+    put:
+      tags:
+        - Carer
+      summary: Actualizar un cuidador con sus servicios (cabecera-detalle)
+      description: |
+        Endpoint para actualizar un cuidador y todos sus servicios en una sola transacción.
+        Cumple con el criterio: "Modificar objeto con relación mucho a mucho (una sola llamada para actualizar cabecera-detalle)".
+      operationId: updateCarerWithServices
+      parameters:
+        - name: carerId
+          in: path
+          required: true
+          description: ID del cuidador
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CarerWithServicesRequestDTO'
+      responses:
+        '200':
+          description: Cuidador actualizado exitosamente con sus servicios
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CarerWithServicesResponseDTO'
+        '400':
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '404':
+          description: Cuidador o tipo de servicio no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+
 components:
   schemas:
     # ==================== COMMON ====================
@@ -595,6 +722,28 @@ components:
           type: string
         path:
           type: string
+
+    # ==================== BASE DTOs ====================
+    BaseDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+
+    AbstractDTO:
+      allOf:
+        - $ref: '#/components/schemas/BaseDTO'
+        - type: object
+          properties:
+            createdAt:
+              type: string
+              format: date-time
+            updatedAt:
+              type: string
+              format: date-time
+            active:
+              type: boolean
 
     # ==================== SERVICE TYPE ====================
     ServiceTypeRequestDTO:
@@ -685,24 +834,85 @@ components:
         number:
           type: integer
 
-    # ==================== BASE DTOs (From Commons) ====================
-    BaseDTO:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-
-    AbstractDTO:
+    UserResponseDTO:
       allOf:
-        - $ref: '#/components/schemas/BaseDTO'
+        - $ref: '#/components/schemas/AbstractDTO'
         - type: object
           properties:
-            createdAt:
+            name:
               type: string
-              format: date-time
-            updatedAt:
+            lastName:
               type: string
-              format: date-time
-            active:
-              type: boolean
+            email:
+              type: string
+            phoneNumber:
+              type: string
+            profilePhoto:
+              type: string
+            roleId:
+              type: integer
+
+    # ==================== CARER WITH SERVICES (CABECERA-DETALLE) ====================
+    CarerWithServicesRequestDTO:
+      type: object
+      required:
+        - userId
+        - availabilityState
+        - amountPet
+      properties:
+        userId:
+          type: integer
+          format: int64
+          description: ID del usuario asociado al cuidador
+        availabilityState:
+          type: string
+          enum: [AVAILABLE, NOT_AVAILABLE, BUSY]
+          description: Estado de disponibilidad del cuidador
+        amountPet:
+          type: integer
+          format: int32
+          minimum: 0
+          description: Cantidad de mascotas que puede cuidar
+        services:
+          type: array
+          description: Lista de servicios que ofrece el cuidador
+          items:
+            type: object
+            required:
+              - serviceTypeId
+              - price
+            properties:
+              serviceTypeId:
+                type: integer
+                format: int64
+                description: ID del tipo de servicio
+              description:
+                type: string
+                maxLength: 500
+                description: Descripción del servicio
+              price:
+                type: number
+                format: double
+                minimum: 0
+                description: Precio del servicio
+
+    CarerWithServicesResponseDTO:
+      allOf:
+        - $ref: '#/components/schemas/AbstractDTO'
+        - type: object
+          properties:
+            user:
+              $ref: '#/components/schemas/UserResponseDTO'
+            availabilityState:
+              type: string
+              enum: [AVAILABLE, NOT_AVAILABLE, BUSY]
+              description: Estado de disponibilidad
+            amountPet:
+              type: integer
+              format: int32
+              description: Cantidad de mascotas que puede cuidar
+            services:
+              type: array
+              description: Lista de servicios ofrecidos
+              items:
+                $ref: '#/components/schemas/ServiceResponseDTO'

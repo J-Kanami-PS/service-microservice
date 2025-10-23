@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
@@ -15,13 +16,12 @@ import java.util.*;
 import jakarta.annotation.Generated;
 
 /**
- * ServiceRequestDTO
+ * CarerWithServicesRequestDTOServicesInner
  */
 
+@JsonTypeName("CarerWithServicesRequestDTO_services_inner")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-10-22T22:21:24.411320700-03:00[America/Asuncion]")
-public class ServiceRequestDTO {
-
-  private Long carerId;
+public class CarerWithServicesRequestDTOServicesInner {
 
   private Long serviceTypeId;
 
@@ -29,50 +29,29 @@ public class ServiceRequestDTO {
 
   private Double price;
 
-  public ServiceRequestDTO() {
+  public CarerWithServicesRequestDTOServicesInner() {
     super();
   }
 
   /**
    * Constructor with only required parameters
    */
-  public ServiceRequestDTO(Long carerId, Long serviceTypeId, Double price) {
-    this.carerId = carerId;
+  public CarerWithServicesRequestDTOServicesInner(Long serviceTypeId, Double price) {
     this.serviceTypeId = serviceTypeId;
     this.price = price;
   }
 
-  public ServiceRequestDTO carerId(Long carerId) {
-    this.carerId = carerId;
-    return this;
-  }
-
-  /**
-   * Get carerId
-   * @return carerId
-  */
-  @NotNull 
-  @Schema(name = "carerId", requiredMode = Schema.RequiredMode.REQUIRED)
-  @JsonProperty("carerId")
-  public Long getCarerId() {
-    return carerId;
-  }
-
-  public void setCarerId(Long carerId) {
-    this.carerId = carerId;
-  }
-
-  public ServiceRequestDTO serviceTypeId(Long serviceTypeId) {
+  public CarerWithServicesRequestDTOServicesInner serviceTypeId(Long serviceTypeId) {
     this.serviceTypeId = serviceTypeId;
     return this;
   }
 
   /**
-   * Get serviceTypeId
+   * ID del tipo de servicio
    * @return serviceTypeId
   */
   @NotNull 
-  @Schema(name = "serviceTypeId", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "serviceTypeId", description = "ID del tipo de servicio", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("serviceTypeId")
   public Long getServiceTypeId() {
     return serviceTypeId;
@@ -82,17 +61,17 @@ public class ServiceRequestDTO {
     this.serviceTypeId = serviceTypeId;
   }
 
-  public ServiceRequestDTO description(String description) {
+  public CarerWithServicesRequestDTOServicesInner description(String description) {
     this.description = description;
     return this;
   }
 
   /**
-   * Get description
+   * Descripción del servicio
    * @return description
   */
-  
-  @Schema(name = "description", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Size(max = 500) 
+  @Schema(name = "description", description = "Descripción del servicio", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("description")
   public String getDescription() {
     return description;
@@ -102,18 +81,18 @@ public class ServiceRequestDTO {
     this.description = description;
   }
 
-  public ServiceRequestDTO price(Double price) {
+  public CarerWithServicesRequestDTOServicesInner price(Double price) {
     this.price = price;
     return this;
   }
 
   /**
-   * Get price
+   * Precio del servicio
    * minimum: 0
    * @return price
   */
   @NotNull @DecimalMin("0") 
-  @Schema(name = "price", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "price", description = "Precio del servicio", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("price")
   public Double getPrice() {
     return price;
@@ -131,23 +110,21 @@ public class ServiceRequestDTO {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ServiceRequestDTO serviceRequestDTO = (ServiceRequestDTO) o;
-    return Objects.equals(this.carerId, serviceRequestDTO.carerId) &&
-        Objects.equals(this.serviceTypeId, serviceRequestDTO.serviceTypeId) &&
-        Objects.equals(this.description, serviceRequestDTO.description) &&
-        Objects.equals(this.price, serviceRequestDTO.price);
+    CarerWithServicesRequestDTOServicesInner carerWithServicesRequestDTOServicesInner = (CarerWithServicesRequestDTOServicesInner) o;
+    return Objects.equals(this.serviceTypeId, carerWithServicesRequestDTOServicesInner.serviceTypeId) &&
+        Objects.equals(this.description, carerWithServicesRequestDTOServicesInner.description) &&
+        Objects.equals(this.price, carerWithServicesRequestDTOServicesInner.price);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(carerId, serviceTypeId, description, price);
+    return Objects.hash(serviceTypeId, description, price);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ServiceRequestDTO {\n");
-    sb.append("    carerId: ").append(toIndentedString(carerId)).append("\n");
+    sb.append("class CarerWithServicesRequestDTOServicesInner {\n");
     sb.append("    serviceTypeId: ").append(toIndentedString(serviceTypeId)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    price: ").append(toIndentedString(price)).append("\n");
