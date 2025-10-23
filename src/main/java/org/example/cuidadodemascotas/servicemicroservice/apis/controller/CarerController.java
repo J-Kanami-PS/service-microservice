@@ -7,9 +7,12 @@ import org.example.cuidadodemascotas.servicemicroservice.apis.dto.CarerWithServi
 import org.example.cuidadodemascotas.servicemicroservice.apis.service.CarerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -76,5 +79,11 @@ public class CarerController implements CarerApi {
                 carerId, response.getServices().size());
 
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/carers")
+    public ResponseEntity<List<CarerWithServicesResponseDTO>> getAllCarers() {
+        log.info("GET /carers - Getting all active carers without services");
+        return ResponseEntity.ok(carerService.getAllCarers());
     }
 }

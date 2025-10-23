@@ -195,4 +195,19 @@ public class CarerService {
 
         return response;
     }
+
+    @Transactional(readOnly = true)
+    public List<CarerWithServicesResponseDTO> getAllCarers() {
+        log.info("Getting all active carers (without services)");
+
+        List<Carer> carers = carerRepository.findByActiveTrue();
+        List<CarerWithServicesResponseDTO> result = new ArrayList<>();
+
+        for (Carer carer : carers) {
+            result.add(buildCarerWithServicesResponse(carer, new ArrayList<>()));
+        }
+
+        log.info("Found {} active carers", result.size());
+        return result;
+    }
 }
