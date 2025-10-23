@@ -34,7 +34,7 @@ import java.util.Map;
 import java.util.Optional;
 import jakarta.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-10-23T01:23:03.345706300-03:00[America/Asuncion]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-10-23T03:14:05.163097800-03:00[America/Asuncion]")
 @Validated
 @Tag(name = "Carer", description = "the Carer API")
 public interface CarerApi {

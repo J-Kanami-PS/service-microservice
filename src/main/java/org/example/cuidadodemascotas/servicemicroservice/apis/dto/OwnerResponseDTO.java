@@ -5,6 +5,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.time.OffsetDateTime;
+import org.example.cuidadodemascotas.servicemicroservice.apis.dto.UserResponseDTO;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -17,11 +18,11 @@ import java.util.*;
 import jakarta.annotation.Generated;
 
 /**
- * ServiceResponseDTO
+ * OwnerResponseDTO
  */
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-10-23T03:14:05.163097800-03:00[America/Asuncion]")
-public class ServiceResponseDTO {
+public class OwnerResponseDTO {
 
   private Long id;
 
@@ -33,15 +34,9 @@ public class ServiceResponseDTO {
 
   private Boolean active;
 
-  private Long carerId;
+  private UserResponseDTO user;
 
-  private Long serviceTypeId;
-
-  private String description;
-
-  private Double price;
-
-  public ServiceResponseDTO id(Long id) {
+  public OwnerResponseDTO id(Long id) {
     this.id = id;
     return this;
   }
@@ -61,7 +56,7 @@ public class ServiceResponseDTO {
     this.id = id;
   }
 
-  public ServiceResponseDTO createdAt(OffsetDateTime createdAt) {
+  public OwnerResponseDTO createdAt(OffsetDateTime createdAt) {
     this.createdAt = createdAt;
     return this;
   }
@@ -81,7 +76,7 @@ public class ServiceResponseDTO {
     this.createdAt = createdAt;
   }
 
-  public ServiceResponseDTO updatedAt(OffsetDateTime updatedAt) {
+  public OwnerResponseDTO updatedAt(OffsetDateTime updatedAt) {
     this.updatedAt = updatedAt;
     return this;
   }
@@ -101,7 +96,7 @@ public class ServiceResponseDTO {
     this.updatedAt = updatedAt;
   }
 
-  public ServiceResponseDTO active(Boolean active) {
+  public OwnerResponseDTO active(Boolean active) {
     this.active = active;
     return this;
   }
@@ -121,84 +116,24 @@ public class ServiceResponseDTO {
     this.active = active;
   }
 
-  public ServiceResponseDTO carerId(Long carerId) {
-    this.carerId = carerId;
+  public OwnerResponseDTO user(UserResponseDTO user) {
+    this.user = user;
     return this;
   }
 
   /**
-   * Get carerId
-   * @return carerId
+   * Get user
+   * @return user
   */
-  
-  @Schema(name = "carerId", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("carerId")
-  public Long getCarerId() {
-    return carerId;
+  @Valid 
+  @Schema(name = "user", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("user")
+  public UserResponseDTO getUser() {
+    return user;
   }
 
-  public void setCarerId(Long carerId) {
-    this.carerId = carerId;
-  }
-
-  public ServiceResponseDTO serviceTypeId(Long serviceTypeId) {
-    this.serviceTypeId = serviceTypeId;
-    return this;
-  }
-
-  /**
-   * Get serviceTypeId
-   * @return serviceTypeId
-  */
-  
-  @Schema(name = "serviceTypeId", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("serviceTypeId")
-  public Long getServiceTypeId() {
-    return serviceTypeId;
-  }
-
-  public void setServiceTypeId(Long serviceTypeId) {
-    this.serviceTypeId = serviceTypeId;
-  }
-
-  public ServiceResponseDTO description(String description) {
-    this.description = description;
-    return this;
-  }
-
-  /**
-   * Get description
-   * @return description
-  */
-  
-  @Schema(name = "description", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("description")
-  public String getDescription() {
-    return description;
-  }
-
-  public void setDescription(String description) {
-    this.description = description;
-  }
-
-  public ServiceResponseDTO price(Double price) {
-    this.price = price;
-    return this;
-  }
-
-  /**
-   * Get price
-   * @return price
-  */
-  
-  @Schema(name = "price", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("price")
-  public Double getPrice() {
-    return price;
-  }
-
-  public void setPrice(Double price) {
-    this.price = price;
+  public void setUser(UserResponseDTO user) {
+    this.user = user;
   }
 
   @Override
@@ -209,34 +144,28 @@ public class ServiceResponseDTO {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ServiceResponseDTO serviceResponseDTO = (ServiceResponseDTO) o;
-    return Objects.equals(this.id, serviceResponseDTO.id) &&
-        Objects.equals(this.createdAt, serviceResponseDTO.createdAt) &&
-        Objects.equals(this.updatedAt, serviceResponseDTO.updatedAt) &&
-        Objects.equals(this.active, serviceResponseDTO.active) &&
-        Objects.equals(this.carerId, serviceResponseDTO.carerId) &&
-        Objects.equals(this.serviceTypeId, serviceResponseDTO.serviceTypeId) &&
-        Objects.equals(this.description, serviceResponseDTO.description) &&
-        Objects.equals(this.price, serviceResponseDTO.price);
+    OwnerResponseDTO ownerResponseDTO = (OwnerResponseDTO) o;
+    return Objects.equals(this.id, ownerResponseDTO.id) &&
+        Objects.equals(this.createdAt, ownerResponseDTO.createdAt) &&
+        Objects.equals(this.updatedAt, ownerResponseDTO.updatedAt) &&
+        Objects.equals(this.active, ownerResponseDTO.active) &&
+        Objects.equals(this.user, ownerResponseDTO.user);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, createdAt, updatedAt, active, carerId, serviceTypeId, description, price);
+    return Objects.hash(id, createdAt, updatedAt, active, user);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ServiceResponseDTO {\n");
+    sb.append("class OwnerResponseDTO {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
     sb.append("    updatedAt: ").append(toIndentedString(updatedAt)).append("\n");
     sb.append("    active: ").append(toIndentedString(active)).append("\n");
-    sb.append("    carerId: ").append(toIndentedString(carerId)).append("\n");
-    sb.append("    serviceTypeId: ").append(toIndentedString(serviceTypeId)).append("\n");
-    sb.append("    description: ").append(toIndentedString(description)).append("\n");
-    sb.append("    price: ").append(toIndentedString(price)).append("\n");
+    sb.append("    user: ").append(toIndentedString(user)).append("\n");
     sb.append("}");
     return sb.toString();
   }

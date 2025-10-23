@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.example.cuidadodemascotas.servicemicroservice.apis.dto.ServiceResponseDTO;
+import org.example.cuidadodemascotas.servicemicroservice.apis.dto.OwnerResponseDTO;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
@@ -19,14 +19,14 @@ import java.util.*;
 import jakarta.annotation.Generated;
 
 /**
- * ServiceResponseList
+ * OwnerResponseList
  */
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-10-23T03:14:05.163097800-03:00[America/Asuncion]")
-public class ServiceResponseList {
+public class OwnerResponseList {
 
   @Valid
-  private List<@Valid ServiceResponseDTO> content;
+  private List<@Valid OwnerResponseDTO> content;
 
   private Integer totalElements;
 
@@ -36,12 +36,12 @@ public class ServiceResponseList {
 
   private Integer number;
 
-  public ServiceResponseList content(List<@Valid ServiceResponseDTO> content) {
+  public OwnerResponseList content(List<@Valid OwnerResponseDTO> content) {
     this.content = content;
     return this;
   }
 
-  public ServiceResponseList addContentItem(ServiceResponseDTO contentItem) {
+  public OwnerResponseList addContentItem(OwnerResponseDTO contentItem) {
     if (this.content == null) {
       this.content = new ArrayList<>();
     }
@@ -56,15 +56,15 @@ public class ServiceResponseList {
   @Valid 
   @Schema(name = "content", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("content")
-  public List<@Valid ServiceResponseDTO> getContent() {
+  public List<@Valid OwnerResponseDTO> getContent() {
     return content;
   }
 
-  public void setContent(List<@Valid ServiceResponseDTO> content) {
+  public void setContent(List<@Valid OwnerResponseDTO> content) {
     this.content = content;
   }
 
-  public ServiceResponseList totalElements(Integer totalElements) {
+  public OwnerResponseList totalElements(Integer totalElements) {
     this.totalElements = totalElements;
     return this;
   }
@@ -84,7 +84,7 @@ public class ServiceResponseList {
     this.totalElements = totalElements;
   }
 
-  public ServiceResponseList totalPages(Integer totalPages) {
+  public OwnerResponseList totalPages(Integer totalPages) {
     this.totalPages = totalPages;
     return this;
   }
@@ -104,7 +104,7 @@ public class ServiceResponseList {
     this.totalPages = totalPages;
   }
 
-  public ServiceResponseList size(Integer size) {
+  public OwnerResponseList size(Integer size) {
     this.size = size;
     return this;
   }
@@ -124,7 +124,7 @@ public class ServiceResponseList {
     this.size = size;
   }
 
-  public ServiceResponseList number(Integer number) {
+  public OwnerResponseList number(Integer number) {
     this.number = number;
     return this;
   }
@@ -152,12 +152,12 @@ public class ServiceResponseList {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ServiceResponseList serviceResponseList = (ServiceResponseList) o;
-    return Objects.equals(this.content, serviceResponseList.content) &&
-        Objects.equals(this.totalElements, serviceResponseList.totalElements) &&
-        Objects.equals(this.totalPages, serviceResponseList.totalPages) &&
-        Objects.equals(this.size, serviceResponseList.size) &&
-        Objects.equals(this.number, serviceResponseList.number);
+    OwnerResponseList ownerResponseList = (OwnerResponseList) o;
+    return Objects.equals(this.content, ownerResponseList.content) &&
+        Objects.equals(this.totalElements, ownerResponseList.totalElements) &&
+        Objects.equals(this.totalPages, ownerResponseList.totalPages) &&
+        Objects.equals(this.size, ownerResponseList.size) &&
+        Objects.equals(this.number, ownerResponseList.number);
   }
 
   @Override
@@ -168,7 +168,7 @@ public class ServiceResponseList {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ServiceResponseList {\n");
+    sb.append("class OwnerResponseList {\n");
     sb.append("    content: ").append(toIndentedString(content)).append("\n");
     sb.append("    totalElements: ").append(toIndentedString(totalElements)).append("\n");
     sb.append("    totalPages: ").append(toIndentedString(totalPages)).append("\n");
