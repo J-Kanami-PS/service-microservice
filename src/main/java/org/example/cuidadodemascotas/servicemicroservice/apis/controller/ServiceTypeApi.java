@@ -5,10 +5,9 @@
  */
 package org.example.cuidadodemascotas.servicemicroservice.apis.controller;
 
-import org.example.cuidadodemascotas.servicemicroservice.apis.dto.ApiError;
+import org.example.cuidadodemascotas.servicemicroservice.apis.dto.ServiceTypePageResponse;
 import org.example.cuidadodemascotas.servicemicroservice.apis.dto.ServiceTypeRequestDTO;
 import org.example.cuidadodemascotas.servicemicroservice.apis.dto.ServiceTypeResponseDTO;
-import org.example.cuidadodemascotas.servicemicroservice.apis.dto.ServiceTypeResponseList;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -35,7 +34,7 @@ import java.util.Map;
 import java.util.Optional;
 import jakarta.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-10-23T03:14:05.163097800-03:00[America/Asuncion]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-10-29T00:52:59.694701200-03:00[America/Asuncion]")
 @Validated
 @Tag(name = "ServiceType", description = "the ServiceType API")
 public interface ServiceTypeApi {
@@ -44,23 +43,15 @@ public interface ServiceTypeApi {
      * POST /service-types : Crear un nuevo tipo de servicio
      *
      * @param serviceTypeRequestDTO  (required)
-     * @return Tipo de servicio creado exitosamente (status code 201)
-     *         or Solicitud inválida (status code 400)
-     *         or Error interno del servidor (status code 500)
+     * @return Tipo de servicio creado (status code 201)
      */
     @Operation(
         operationId = "createServiceType",
         summary = "Crear un nuevo tipo de servicio",
         tags = { "ServiceType" },
         responses = {
-            @ApiResponse(responseCode = "201", description = "Tipo de servicio creado exitosamente", content = {
+            @ApiResponse(responseCode = "201", description = "Tipo de servicio creado", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ServiceTypeResponseDTO.class))
-            }),
-            @ApiResponse(responseCode = "400", description = "Solicitud inválida", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class))
-            }),
-            @ApiResponse(responseCode = "500", description = "Error interno del servidor", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class))
             })
         }
     )
@@ -77,59 +68,42 @@ public interface ServiceTypeApi {
 
 
     /**
-     * DELETE /service-types/{id} : Eliminar un tipo de servicio
+     * DELETE /service-types/{id} : Eliminar tipo de servicio
      *
-     * @param id ID del tipo de servicio (required)
-     * @return Tipo de servicio eliminado exitosamente (status code 204)
-     *         or Tipo de servicio no encontrado (status code 404)
-     *         or Error interno del servidor (status code 500)
+     * @param id  (required)
+     * @return Tipo de servicio eliminado (status code 204)
      */
     @Operation(
         operationId = "deleteServiceType",
-        summary = "Eliminar un tipo de servicio",
+        summary = "Eliminar tipo de servicio",
         tags = { "ServiceType" },
         responses = {
-            @ApiResponse(responseCode = "204", description = "Tipo de servicio eliminado exitosamente"),
-            @ApiResponse(responseCode = "404", description = "Tipo de servicio no encontrado", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class))
-            }),
-            @ApiResponse(responseCode = "500", description = "Error interno del servidor", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class))
-            })
+            @ApiResponse(responseCode = "204", description = "Tipo de servicio eliminado")
         }
     )
     @RequestMapping(
         method = RequestMethod.DELETE,
-        value = "/service-types/{id}",
-        produces = { "application/json" }
+        value = "/service-types/{id}"
     )
     
     ResponseEntity<Void> deleteServiceType(
-        @Parameter(name = "id", description = "ID del tipo de servicio", required = true, in = ParameterIn.PATH) @PathVariable("id") Long id
+        @Parameter(name = "id", description = "", required = true, in = ParameterIn.PATH) @PathVariable("id") Long id
     );
 
 
     /**
-     * GET /service-types/{id} : Obtener un tipo de servicio por ID
+     * GET /service-types/{id} : Obtener tipo de servicio por ID
      *
-     * @param id ID del tipo de servicio (required)
-     * @return Tipo de servicio obtenido exitosamente (status code 200)
-     *         or Tipo de servicio no encontrado (status code 404)
-     *         or Error interno del servidor (status code 500)
+     * @param id  (required)
+     * @return Tipo de servicio obtenido (status code 200)
      */
     @Operation(
         operationId = "getServiceTypeById",
-        summary = "Obtener un tipo de servicio por ID",
+        summary = "Obtener tipo de servicio por ID",
         tags = { "ServiceType" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "Tipo de servicio obtenido exitosamente", content = {
+            @ApiResponse(responseCode = "200", description = "Tipo de servicio obtenido", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ServiceTypeResponseDTO.class))
-            }),
-            @ApiResponse(responseCode = "404", description = "Tipo de servicio no encontrado", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class))
-            }),
-            @ApiResponse(responseCode = "500", description = "Error interno del servidor", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class))
             })
         }
     )
@@ -140,18 +114,16 @@ public interface ServiceTypeApi {
     )
     
     ResponseEntity<ServiceTypeResponseDTO> getServiceTypeById(
-        @Parameter(name = "id", description = "ID del tipo de servicio", required = true, in = ParameterIn.PATH) @PathVariable("id") Long id
+        @Parameter(name = "id", description = "", required = true, in = ParameterIn.PATH) @PathVariable("id") Long id
     );
 
 
     /**
      * GET /service-types : Obtener todos los tipos de servicio con paginación
      *
-     * @param page Número de página (base 0) (optional, default to 0)
-     * @param size Tamaño de la página (optional, default to 20)
-     * @param sort Campo para ordenar (ej. name,asc) (optional)
+     * @param page  (optional, default to 0)
+     * @param size  (optional, default to 20)
      * @return Tipos de servicio obtenidos exitosamente (status code 200)
-     *         or Error interno del servidor (status code 500)
      */
     @Operation(
         operationId = "getServiceTypes",
@@ -159,10 +131,7 @@ public interface ServiceTypeApi {
         tags = { "ServiceType" },
         responses = {
             @ApiResponse(responseCode = "200", description = "Tipos de servicio obtenidos exitosamente", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ServiceTypeResponseList.class))
-            }),
-            @ApiResponse(responseCode = "500", description = "Error interno del servidor", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class))
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ServiceTypePageResponse.class))
             })
         }
     )
@@ -172,39 +141,26 @@ public interface ServiceTypeApi {
         produces = { "application/json" }
     )
     
-    ResponseEntity<ServiceTypeResponseList> getServiceTypes(
-        @Parameter(name = "page", description = "Número de página (base 0)", in = ParameterIn.QUERY) @Valid @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
-        @Parameter(name = "size", description = "Tamaño de la página", in = ParameterIn.QUERY) @Valid @RequestParam(value = "size", required = false, defaultValue = "20") Integer size,
-        @Parameter(name = "sort", description = "Campo para ordenar (ej. name,asc)", in = ParameterIn.QUERY) @Valid @RequestParam(value = "sort", required = false) String sort
+    ResponseEntity<ServiceTypePageResponse> getServiceTypes(
+        @Parameter(name = "page", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+        @Parameter(name = "size", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "size", required = false, defaultValue = "20") Integer size
     );
 
 
     /**
-     * PUT /service-types/{id} : Actualizar un tipo de servicio
+     * PUT /service-types/{id} : Actualizar tipo de servicio
      *
-     * @param id ID del tipo de servicio (required)
+     * @param id  (required)
      * @param serviceTypeRequestDTO  (required)
-     * @return Tipo de servicio actualizado exitosamente (status code 200)
-     *         or Tipo de servicio no encontrado (status code 404)
-     *         or Solicitud inválida (status code 400)
-     *         or Error interno del servidor (status code 500)
+     * @return Tipo de servicio actualizado (status code 200)
      */
     @Operation(
         operationId = "updateServiceType",
-        summary = "Actualizar un tipo de servicio",
+        summary = "Actualizar tipo de servicio",
         tags = { "ServiceType" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "Tipo de servicio actualizado exitosamente", content = {
+            @ApiResponse(responseCode = "200", description = "Tipo de servicio actualizado", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ServiceTypeResponseDTO.class))
-            }),
-            @ApiResponse(responseCode = "404", description = "Tipo de servicio no encontrado", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class))
-            }),
-            @ApiResponse(responseCode = "400", description = "Solicitud inválida", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class))
-            }),
-            @ApiResponse(responseCode = "500", description = "Error interno del servidor", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class))
             })
         }
     )
@@ -216,7 +172,7 @@ public interface ServiceTypeApi {
     )
     
     ResponseEntity<ServiceTypeResponseDTO> updateServiceType(
-        @Parameter(name = "id", description = "ID del tipo de servicio", required = true, in = ParameterIn.PATH) @PathVariable("id") Long id,
+        @Parameter(name = "id", description = "", required = true, in = ParameterIn.PATH) @PathVariable("id") Long id,
         @Parameter(name = "ServiceTypeRequestDTO", description = "", required = true) @Valid @RequestBody ServiceTypeRequestDTO serviceTypeRequestDTO
     );
 

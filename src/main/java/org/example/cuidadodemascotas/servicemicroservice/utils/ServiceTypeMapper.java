@@ -12,11 +12,21 @@ public class ServiceTypeMapper extends GenericMapper<ServiceType, ServiceTypeRes
         super(ServiceType.class, ServiceTypeResponseDTO.class);
     }
 
+    @Override
+    public ServiceTypeResponseDTO toDto(ServiceType entity) {
+        if (entity == null) {
+            return null;
+        }
+        ServiceTypeResponseDTO dto = new ServiceTypeResponseDTO();
+        dto.setId(entity.getId());
+        dto.setName(entity.getName());
+        return dto;
+    }
+
     public ServiceType toEntity(ServiceTypeRequestDTO dto) {
         if (dto == null) {
             return null;
         }
-
         ServiceType entity = new ServiceType();
         entity.setName(dto.getName());
         return entity;
@@ -26,7 +36,6 @@ public class ServiceTypeMapper extends GenericMapper<ServiceType, ServiceTypeRes
         if (dto == null || entity == null) {
             return;
         }
-
         if (dto.getName() != null) {
             entity.setName(dto.getName());
         }

@@ -33,15 +33,12 @@ public class ServiceTypeService {
     @Transactional
     public ServiceTypeResponseDTO create(ServiceTypeRequestDTO dto) {
         log.info("Creating service type: {}", dto.getName());
-
         if (repository.existsByName(dto.getName())) {
             throw new IllegalArgumentException(
                     "Ya existe un tipo de servicio con el nombre: " + dto.getName());
         }
-
         ServiceType entity = mapper.toEntity(dto);
         ServiceType saved = repository.save(entity);
-
         log.info("Service type created successfully with id: {}", saved.getId());
         return mapper.toDto(saved);
     }
@@ -56,9 +53,7 @@ public class ServiceTypeService {
 
     public Page<ServiceTypeResponseDTO> findAll(int page, int size, String sort) {
         log.debug("Finding all service types (page: {}, size: {}, sort: {})", page, size, sort);
-
         int pageSize = size > 0 ? size : defaultPageSize;
-
         // Determinar campo de ordenamiento
         Sort sortOrder;
         if (sort == null || sort.isBlank()) {
@@ -68,19 +63,15 @@ public class ServiceTypeService {
         } else {
             sortOrder = Sort.by(sort).ascending();
         }
-
         Pageable pageable = PageRequest.of(page, pageSize, sortOrder);
-
         Page<ServiceType> entityPage = repository.findAll(pageable);
         return entityPage.map(mapper::toDto);
     }
 
     public Page<ServiceTypeResponseDTO> searchByName(String name, int page, int size) {
         log.debug("Searching service types by name: {}", name);
-
         int pageSize = size > 0 ? size : defaultPageSize;
         PageRequest pageable = PageRequest.of(page, pageSize);
-
         Page<ServiceType> entityPage = repository.searchByName(name, pageable);
         return entityPage.map(mapper::toDto);
     }
@@ -88,19 +79,15 @@ public class ServiceTypeService {
     @Transactional
     public ServiceTypeResponseDTO update(Long id, ServiceTypeRequestDTO dto) {
         log.info("Updating service type with id: {}", id);
-
         ServiceType existing = repository.findById(id)
                 .orElseThrow(() -> new org.example.cuidadodemascotas.servicemicroservice.exception.NotFoundException(
                         id, ServiceType.class));
-
         if (repository.existsByNameAndIdNot(dto.getName(), id)) {
             throw new IllegalArgumentException(
                     "Ya existe otro tipo de servicio con el nombre: " + dto.getName());
         }
-
         mapper.updateEntityFromDto(dto, existing);
         ServiceType updated = repository.save(existing);
-
         log.info("Service type updated successfully: {}", id);
         return mapper.toDto(updated);
     }
@@ -108,11 +95,9 @@ public class ServiceTypeService {
     @Transactional
     public void delete(Long id) {
         log.info("Deleting service type with id: {}", id);
-
         ServiceType entity = repository.findById(id)
                 .orElseThrow(() -> new org.example.cuidadodemascotas.servicemicroservice.exception.NotFoundException(
                         id, ServiceType.class));
-
         repository.delete(entity);
         log.info("Service type deleted successfully: {}", id);
     }

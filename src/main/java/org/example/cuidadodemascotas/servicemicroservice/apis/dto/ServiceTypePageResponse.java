@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.example.cuidadodemascotas.servicemicroservice.apis.dto.ServiceResponseDTO;
+import org.example.cuidadodemascotas.servicemicroservice.apis.dto.ServiceTypeResponseDTO;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
@@ -19,16 +19,16 @@ import java.util.*;
 import jakarta.annotation.Generated;
 
 /**
- * ServiceResponseList
+ * ServiceTypePageResponse
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-10-23T03:14:05.163097800-03:00[America/Asuncion]")
-public class ServiceResponseList {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-10-29T00:52:59.694701200-03:00[America/Asuncion]")
+public class ServiceTypePageResponse {
 
   @Valid
-  private List<@Valid ServiceResponseDTO> content;
+  private List<@Valid ServiceTypeResponseDTO> content;
 
-  private Integer totalElements;
+  private Long totalElements;
 
   private Integer totalPages;
 
@@ -36,12 +36,12 @@ public class ServiceResponseList {
 
   private Integer number;
 
-  public ServiceResponseList content(List<@Valid ServiceResponseDTO> content) {
+  public ServiceTypePageResponse content(List<@Valid ServiceTypeResponseDTO> content) {
     this.content = content;
     return this;
   }
 
-  public ServiceResponseList addContentItem(ServiceResponseDTO contentItem) {
+  public ServiceTypePageResponse addContentItem(ServiceTypeResponseDTO contentItem) {
     if (this.content == null) {
       this.content = new ArrayList<>();
     }
@@ -56,15 +56,15 @@ public class ServiceResponseList {
   @Valid 
   @Schema(name = "content", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("content")
-  public List<@Valid ServiceResponseDTO> getContent() {
+  public List<@Valid ServiceTypeResponseDTO> getContent() {
     return content;
   }
 
-  public void setContent(List<@Valid ServiceResponseDTO> content) {
+  public void setContent(List<@Valid ServiceTypeResponseDTO> content) {
     this.content = content;
   }
 
-  public ServiceResponseList totalElements(Integer totalElements) {
+  public ServiceTypePageResponse totalElements(Long totalElements) {
     this.totalElements = totalElements;
     return this;
   }
@@ -76,15 +76,15 @@ public class ServiceResponseList {
   
   @Schema(name = "totalElements", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("totalElements")
-  public Integer getTotalElements() {
+  public Long getTotalElements() {
     return totalElements;
   }
 
-  public void setTotalElements(Integer totalElements) {
+  public void setTotalElements(Long totalElements) {
     this.totalElements = totalElements;
   }
 
-  public ServiceResponseList totalPages(Integer totalPages) {
+  public ServiceTypePageResponse totalPages(Integer totalPages) {
     this.totalPages = totalPages;
     return this;
   }
@@ -104,7 +104,7 @@ public class ServiceResponseList {
     this.totalPages = totalPages;
   }
 
-  public ServiceResponseList size(Integer size) {
+  public ServiceTypePageResponse size(Integer size) {
     this.size = size;
     return this;
   }
@@ -124,7 +124,7 @@ public class ServiceResponseList {
     this.size = size;
   }
 
-  public ServiceResponseList number(Integer number) {
+  public ServiceTypePageResponse number(Integer number) {
     this.number = number;
     return this;
   }
@@ -152,12 +152,12 @@ public class ServiceResponseList {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ServiceResponseList serviceResponseList = (ServiceResponseList) o;
-    return Objects.equals(this.content, serviceResponseList.content) &&
-        Objects.equals(this.totalElements, serviceResponseList.totalElements) &&
-        Objects.equals(this.totalPages, serviceResponseList.totalPages) &&
-        Objects.equals(this.size, serviceResponseList.size) &&
-        Objects.equals(this.number, serviceResponseList.number);
+    ServiceTypePageResponse serviceTypePageResponse = (ServiceTypePageResponse) o;
+    return Objects.equals(this.content, serviceTypePageResponse.content) &&
+        Objects.equals(this.totalElements, serviceTypePageResponse.totalElements) &&
+        Objects.equals(this.totalPages, serviceTypePageResponse.totalPages) &&
+        Objects.equals(this.size, serviceTypePageResponse.size) &&
+        Objects.equals(this.number, serviceTypePageResponse.number);
   }
 
   @Override
@@ -168,7 +168,7 @@ public class ServiceResponseList {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ServiceResponseList {\n");
+    sb.append("class ServiceTypePageResponse {\n");
     sb.append("    content: ").append(toIndentedString(content)).append("\n");
     sb.append("    totalElements: ").append(toIndentedString(totalElements)).append("\n");
     sb.append("    totalPages: ").append(toIndentedString(totalPages)).append("\n");

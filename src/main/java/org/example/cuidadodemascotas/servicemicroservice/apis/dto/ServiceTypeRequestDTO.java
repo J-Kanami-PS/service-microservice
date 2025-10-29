@@ -18,7 +18,7 @@ import jakarta.annotation.Generated;
  * ServiceTypeRequestDTO
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-10-23T03:14:05.163097800-03:00[America/Asuncion]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-10-29T00:52:59.694701200-03:00[America/Asuncion]")
 public class ServiceTypeRequestDTO {
 
   private String name;
@@ -44,7 +44,7 @@ public class ServiceTypeRequestDTO {
    * @return name
   */
   @NotNull @Size(max = 100) 
-  @Schema(name = "name", example = "Paseo de mascotas", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "name", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("name")
   public String getName() {
     return name;

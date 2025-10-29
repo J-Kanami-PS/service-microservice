@@ -20,18 +20,10 @@ import jakarta.annotation.Generated;
  * ServiceResponseDTO
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-10-23T03:14:05.163097800-03:00[America/Asuncion]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-10-29T00:52:59.694701200-03:00[America/Asuncion]")
 public class ServiceResponseDTO {
 
   private Long id;
-
-  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-  private OffsetDateTime createdAt;
-
-  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-  private OffsetDateTime updatedAt;
-
-  private Boolean active;
 
   private Long carerId;
 
@@ -40,6 +32,14 @@ public class ServiceResponseDTO {
   private String description;
 
   private Double price;
+
+  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+  private OffsetDateTime createdAt;
+
+  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+  private OffsetDateTime updatedAt;
+
+  private Boolean active;
 
   public ServiceResponseDTO id(Long id) {
     this.id = id;
@@ -59,66 +59,6 @@ public class ServiceResponseDTO {
 
   public void setId(Long id) {
     this.id = id;
-  }
-
-  public ServiceResponseDTO createdAt(OffsetDateTime createdAt) {
-    this.createdAt = createdAt;
-    return this;
-  }
-
-  /**
-   * Get createdAt
-   * @return createdAt
-  */
-  @Valid 
-  @Schema(name = "createdAt", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("createdAt")
-  public OffsetDateTime getCreatedAt() {
-    return createdAt;
-  }
-
-  public void setCreatedAt(OffsetDateTime createdAt) {
-    this.createdAt = createdAt;
-  }
-
-  public ServiceResponseDTO updatedAt(OffsetDateTime updatedAt) {
-    this.updatedAt = updatedAt;
-    return this;
-  }
-
-  /**
-   * Get updatedAt
-   * @return updatedAt
-  */
-  @Valid 
-  @Schema(name = "updatedAt", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("updatedAt")
-  public OffsetDateTime getUpdatedAt() {
-    return updatedAt;
-  }
-
-  public void setUpdatedAt(OffsetDateTime updatedAt) {
-    this.updatedAt = updatedAt;
-  }
-
-  public ServiceResponseDTO active(Boolean active) {
-    this.active = active;
-    return this;
-  }
-
-  /**
-   * Get active
-   * @return active
-  */
-  
-  @Schema(name = "active", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("active")
-  public Boolean getActive() {
-    return active;
-  }
-
-  public void setActive(Boolean active) {
-    this.active = active;
   }
 
   public ServiceResponseDTO carerId(Long carerId) {
@@ -201,6 +141,66 @@ public class ServiceResponseDTO {
     this.price = price;
   }
 
+  public ServiceResponseDTO createdAt(OffsetDateTime createdAt) {
+    this.createdAt = createdAt;
+    return this;
+  }
+
+  /**
+   * Get createdAt
+   * @return createdAt
+  */
+  @Valid 
+  @Schema(name = "createdAt", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("createdAt")
+  public OffsetDateTime getCreatedAt() {
+    return createdAt;
+  }
+
+  public void setCreatedAt(OffsetDateTime createdAt) {
+    this.createdAt = createdAt;
+  }
+
+  public ServiceResponseDTO updatedAt(OffsetDateTime updatedAt) {
+    this.updatedAt = updatedAt;
+    return this;
+  }
+
+  /**
+   * Get updatedAt
+   * @return updatedAt
+  */
+  @Valid 
+  @Schema(name = "updatedAt", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("updatedAt")
+  public OffsetDateTime getUpdatedAt() {
+    return updatedAt;
+  }
+
+  public void setUpdatedAt(OffsetDateTime updatedAt) {
+    this.updatedAt = updatedAt;
+  }
+
+  public ServiceResponseDTO active(Boolean active) {
+    this.active = active;
+    return this;
+  }
+
+  /**
+   * Get active
+   * @return active
+  */
+  
+  @Schema(name = "active", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("active")
+  public Boolean getActive() {
+    return active;
+  }
+
+  public void setActive(Boolean active) {
+    this.active = active;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -211,18 +211,18 @@ public class ServiceResponseDTO {
     }
     ServiceResponseDTO serviceResponseDTO = (ServiceResponseDTO) o;
     return Objects.equals(this.id, serviceResponseDTO.id) &&
-        Objects.equals(this.createdAt, serviceResponseDTO.createdAt) &&
-        Objects.equals(this.updatedAt, serviceResponseDTO.updatedAt) &&
-        Objects.equals(this.active, serviceResponseDTO.active) &&
         Objects.equals(this.carerId, serviceResponseDTO.carerId) &&
         Objects.equals(this.serviceTypeId, serviceResponseDTO.serviceTypeId) &&
         Objects.equals(this.description, serviceResponseDTO.description) &&
-        Objects.equals(this.price, serviceResponseDTO.price);
+        Objects.equals(this.price, serviceResponseDTO.price) &&
+        Objects.equals(this.createdAt, serviceResponseDTO.createdAt) &&
+        Objects.equals(this.updatedAt, serviceResponseDTO.updatedAt) &&
+        Objects.equals(this.active, serviceResponseDTO.active);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, createdAt, updatedAt, active, carerId, serviceTypeId, description, price);
+    return Objects.hash(id, carerId, serviceTypeId, description, price, createdAt, updatedAt, active);
   }
 
   @Override
@@ -230,13 +230,13 @@ public class ServiceResponseDTO {
     StringBuilder sb = new StringBuilder();
     sb.append("class ServiceResponseDTO {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
-    sb.append("    updatedAt: ").append(toIndentedString(updatedAt)).append("\n");
-    sb.append("    active: ").append(toIndentedString(active)).append("\n");
     sb.append("    carerId: ").append(toIndentedString(carerId)).append("\n");
     sb.append("    serviceTypeId: ").append(toIndentedString(serviceTypeId)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    price: ").append(toIndentedString(price)).append("\n");
+    sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
+    sb.append("    updatedAt: ").append(toIndentedString(updatedAt)).append("\n");
+    sb.append("    active: ").append(toIndentedString(active)).append("\n");
     sb.append("}");
     return sb.toString();
   }
