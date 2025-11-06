@@ -25,8 +25,8 @@ public class ServiceMicroserviceApplication {
 
         log.info("========================================");
         log.info("Service Microservice Started Successfully!");
-        log.info("Swagger UI: http://localhost:8083/api/v1/swagger-ui.html");
-        log.info("API Docs: http://localhost:8083/api/v1/api-docs");
+        log.info("Swagger UI: http://localhost:8083/swagger-ui.html");
+        log.info("API Docs: http://localhost:8083/api-docs");
         log.info("========================================");
     }
 }

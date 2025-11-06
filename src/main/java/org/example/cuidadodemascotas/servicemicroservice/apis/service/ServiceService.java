@@ -7,6 +7,10 @@ import org.example.cuidadodemascotas.servicemicroservice.apis.dto.ServiceRespons
 import org.example.cuidadodemascotas.servicemicroservice.apis.repository.ServiceRepository;
 import org.example.cuidadodemascotas.servicemicroservice.utils.ServiceMapper;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +34,11 @@ public class ServiceService extends AbstractBaseService<Service, ServiceResponse
         this.serviceMapper = mapper;
     }
 
+    // Limpia cachés relacionados al crear
+    @Caching(evict = {
+            @CacheEvict(value = "services", allEntries = true),
+            @CacheEvict(value = "service_carers", allEntries = true)
+    })
     @Transactional
     public ServiceResponseDTO create(ServiceRequestDTO dto) {
         log.info("Creating service for carer: {}, type: {}", dto.getCarerId(), dto.getServiceTypeId());
@@ -41,6 +50,8 @@ public class ServiceService extends AbstractBaseService<Service, ServiceResponse
         return serviceMapper.toDto(saved);
     }
 
+    // Cachea búsqueda por ID
+    @Cacheable(value = "services", key = "#id")
     public ServiceResponseDTO findById(Long id) {
         log.debug("Finding service by id: {}", id);
         Service entity = findEntityById(id);
@@ -49,6 +60,7 @@ public class ServiceService extends AbstractBaseService<Service, ServiceResponse
 
     /**
      * Búsqueda con filtros opcionales
+     * NO se cachea porque tiene muchas combinaciones de parámetros
      */
     public Page<ServiceResponseDTO> findByFilters(
             Long carerId,
@@ -62,6 +74,7 @@ public class ServiceService extends AbstractBaseService<Service, ServiceResponse
         int pageSize = size > 0 ? size : defaultPageSize;
         PageRequest pageable = PageRequest.of(page, pageSize);
         Page<Service> result;
+
         if (carerId != null && serviceTypeId != null) {
             result = serviceRepository.findByCarerIdAndServiceTypeIdPaged(
                     carerId, serviceTypeId, pageable
@@ -90,6 +103,14 @@ public class ServiceService extends AbstractBaseService<Service, ServiceResponse
         return result.map(serviceMapper::toDto);
     }
 
+    // Actualiza el item Y limpia listas
+    @Caching(
+            put = @CachePut(value = "services", key = "#id"),
+            evict = {
+                    @CacheEvict(value = "services", allEntries = true),
+                    @CacheEvict(value = "service_carers", allEntries = true)
+            }
+    )
     @Transactional
     public ServiceResponseDTO update(Long id, ServiceRequestDTO dto) {
         log.info("Updating service with id: {}", id);
@@ -101,6 +122,12 @@ public class ServiceService extends AbstractBaseService<Service, ServiceResponse
         return serviceMapper.toDto(updated);
     }
 
+    // Elimina el item Y limpia listas
+    @Caching(evict = {
+            @CacheEvict(value = "services", key = "#id"),
+            @CacheEvict(value = "services", allEntries = true),
+            @CacheEvict(value = "service_carers", allEntries = true)
+    })
     @Transactional
     public void delete(Long id) {
         log.info("Soft deleting service with id: {}", id);

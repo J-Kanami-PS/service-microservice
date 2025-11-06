@@ -20,7 +20,7 @@ public class SwaggerConfig {
     @Bean
     public OpenAPI serviceMicroserviceOpenAPI() {
         Server server = new Server();
-        server.setUrl("http://localhost:" + serverPort + "/api/v1");
+        server.setUrl("http://localhost:" + serverPort + "/swagger-ui.html");
         server.setDescription("Service Microservice Local Server");
 
         Contact contact = new Contact();

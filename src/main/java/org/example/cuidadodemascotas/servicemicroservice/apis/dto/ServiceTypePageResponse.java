@@ -22,7 +22,7 @@ import jakarta.annotation.Generated;
  * ServiceTypePageResponse
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-11-02T22:57:49.624341500-03:00[America/Asuncion]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-11-06T16:55:06.309309400-03:00[America/Asuncion]")
 public class ServiceTypePageResponse {
 
   @Valid
