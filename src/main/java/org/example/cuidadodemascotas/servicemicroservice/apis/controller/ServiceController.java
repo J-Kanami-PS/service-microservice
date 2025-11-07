@@ -9,6 +9,7 @@ import org.example.cuidadodemascotas.servicemicroservice.apis.service.ServiceSer
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
@@ -75,6 +76,7 @@ public class ServiceController implements ServiceApi {
         return ResponseEntity.ok(response);
     }
 
+    @PreAuthorize("hasRole('ROLE_CARER')")
     @Override
     public ResponseEntity<ServiceResponseDTO> createService(ServiceRequestDTO serviceRequestDTO) {
         log.info("POST /services - Creating service for carer: {}, type: {}",
@@ -84,6 +86,7 @@ public class ServiceController implements ServiceApi {
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
+    @PreAuthorize("hasRole('ROLE_CARER')")
     @Override
     public ResponseEntity<ServiceResponseDTO> updateService(
             Long id,
@@ -95,6 +98,7 @@ public class ServiceController implements ServiceApi {
         return ResponseEntity.ok(updated);
     }
 
+    @PreAuthorize("hasRole('ROLE_CARER')")
     @Override
     public ResponseEntity<Void> deleteService(Long id) {
         log.info("DELETE /services/{} - Soft delete", id);
