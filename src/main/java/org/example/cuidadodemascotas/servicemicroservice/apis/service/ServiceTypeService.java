@@ -4,13 +4,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.cuidadodemascota.commons.entities.service.ServiceType;
 import org.example.cuidadodemascotas.servicemicroservice.apis.dto.ServiceTypeRequestDTO;
 import org.example.cuidadodemascotas.servicemicroservice.apis.dto.ServiceTypeResponseDTO;
-import org.example.cuidadodemascotas.servicemicroservice.apis.repository.ServiceTypeRepository;
+import org.example.cuidadodemascotas.servicemicroservice.apis.repository.IServiceTypeRepository;
 import org.example.cuidadodemascotas.servicemicroservice.utils.ServiceTypeMapper;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
+//import org.springframework.cache.annotation.CacheEvict;
+//import org.springframework.cache.annotation.CachePut;
+//import org.springframework.cache.annotation.Cacheable;
+//import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -23,19 +23,19 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class ServiceTypeService {
 
-    private final ServiceTypeRepository repository;
+    private final IServiceTypeRepository repository;
     private final ServiceTypeMapper mapper;
 
     @Value("${pagination.size.service-type.list:20}")
     private int defaultPageSize;
 
-    public ServiceTypeService(ServiceTypeRepository repository, ServiceTypeMapper mapper) {
+    public ServiceTypeService(IServiceTypeRepository repository, ServiceTypeMapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
     }
 
     // Limpia solo la lista completa al crear
-    @CacheEvict(value = "service_types", key = "'all'")
+    //@CacheEvict(value = "service_types", key = "'all'")
     @Transactional
     public ServiceTypeResponseDTO create(ServiceTypeRequestDTO dto) {
         log.info("Creating service type: {}", dto.getName());
@@ -50,7 +50,7 @@ public class ServiceTypeService {
     }
 
     // Cachea por ID
-    @Cacheable(value = "service_types", key = "#id")
+    //@Cacheable(value = "service_types", key = "#id")
     public ServiceTypeResponseDTO findById(Long id) {
         log.debug("Finding service type by id: {}", id);
         ServiceType entity = repository.findById(id)
@@ -60,7 +60,7 @@ public class ServiceTypeService {
     }
 
     // Cachea la lista completa
-    @Cacheable(value = "service_types", key = "'all'")
+    //@Cacheable(value = "service_types", key = "'all'")
     public Page<ServiceTypeResponseDTO> findAll(int page, int size, String sort) {
         log.debug("Finding all service types (page: {}, size: {}, sort: {})", page, size, sort);
         int pageSize = size > 0 ? size : defaultPageSize;
@@ -86,10 +86,10 @@ public class ServiceTypeService {
     }
 
     // Actualiza el item específico Y limpia la lista
-    @Caching(
-            put = @CachePut(value = "service_types", key = "#id"),
-            evict = @CacheEvict(value = "service_types", key = "'all'")
-    )
+    //@Caching(
+            //put = @CachePut(value = "service_types", key = "#id"),
+            //evict = @CacheEvict(value = "service_types", key = "'all'")
+    //)
     @Transactional
     public ServiceTypeResponseDTO update(Long id, ServiceTypeRequestDTO dto) {
         log.info("Updating service type with id: {}", id);
@@ -107,10 +107,10 @@ public class ServiceTypeService {
     }
 
     // Elimina ambos: el item específico Y la lista
-    @Caching(evict = {
-            @CacheEvict(value = "service_types", key = "#id"),
-            @CacheEvict(value = "service_types", key = "'all'")
-    })
+    //@Caching(evict = {
+            //@CacheEvict(value = "service_types", key = "#id"),
+            //@CacheEvict(value = "service_types", key = "'all'")
+    //})
     @Transactional
     public void delete(Long id) {
         log.info("Deleting service type with id: {}", id);
@@ -133,7 +133,7 @@ public class ServiceTypeService {
         return repository.existsByName(name);
     }
 
-    @Cacheable(value = "service_types", key = "'all_ordered'")
+    //@Cacheable(value = "service_types", key = "'all_ordered'")
     public java.util.List<ServiceTypeResponseDTO> findAllOrdered() {
         log.debug("Finding all service types ordered by name");
         return repository.findAllByOrderByNameAsc()

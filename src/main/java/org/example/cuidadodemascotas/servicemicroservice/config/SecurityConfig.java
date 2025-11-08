@@ -19,14 +19,30 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.disable())
                 .authorizeHttpRequests(auth -> auth
-                        // Endpoints publicos (para consulta)
-                        .requestMatchers("/service-types/**").permitAll()
-                        .requestMatchers("/services/search").permitAll()
-                        .requestMatchers("/services").permitAll()
-                        .requestMatchers("/actuator/**").permitAll()
-                        .requestMatchers("/swagger-ui/**", "/api-docs/**").permitAll()
+                        // ========== SWAGGER Y OPENAPI ==========
+                        .requestMatchers(
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/v3/api-docs/**",
+                                "/api-docs/**",
+                                "/swagger-resources/**",
+                                "/webjars/**"
+                        ).permitAll()
 
-                        // Todo lo demas requiere autenticacion
+                        // ========== ACTUATOR ==========
+                        .requestMatchers("/actuator/**").permitAll()
+
+                        // ========== ENDPOINTS PÚBLICOS (CONSULTA) ==========
+                        .requestMatchers(
+                                "/service-types",
+                                "/service-types/{id}",
+                                "/services",
+                                "/services/{id}",
+                                "/services/search"
+                        ).permitAll()
+
+                        // ========== ENDPOINTS PROTEGIDOS ==========
+                        // POST, PUT, DELETE requieren autenticación (manejado por @PreAuthorize)
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session ->

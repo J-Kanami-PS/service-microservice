@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ServiceTypeRepository extends JpaRepository<ServiceType, Long> {
+public interface IServiceTypeRepository extends JpaRepository<ServiceType, Long> {
 
     Optional<ServiceType> findByNameIgnoreCase(String name);
 

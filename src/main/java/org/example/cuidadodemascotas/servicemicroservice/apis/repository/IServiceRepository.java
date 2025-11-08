@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.math.BigDecimal;
 
 @Repository
-public interface ServiceRepository extends JpaRepository<Service, Long>, IBaseRepository<Service> {
+public interface IServiceRepository extends JpaRepository<Service, Long>, IBaseRepository<Service> {
 
     @Query("SELECT s FROM Service s WHERE s.active = true ORDER BY s.id DESC")
     Page<Service> findAllServices(Pageable pageable);

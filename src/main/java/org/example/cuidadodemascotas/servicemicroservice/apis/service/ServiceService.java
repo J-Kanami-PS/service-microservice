@@ -4,13 +4,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.cuidadodemascota.commons.entities.service.Service;
 import org.example.cuidadodemascotas.servicemicroservice.apis.dto.ServiceRequestDTO;
 import org.example.cuidadodemascotas.servicemicroservice.apis.dto.ServiceResponseDTO;
-import org.example.cuidadodemascotas.servicemicroservice.apis.repository.ServiceRepository;
+import org.example.cuidadodemascotas.servicemicroservice.apis.repository.IUserRepository;
+import org.example.cuidadodemascotas.servicemicroservice.apis.repository.IServiceRepository;
+import org.example.cuidadodemascotas.servicemicroservice.apis.repository.IServiceTypeRepository;
+import org.example.cuidadodemascotas.servicemicroservice.exception.NotFoundException;
 import org.example.cuidadodemascotas.servicemicroservice.utils.ServiceMapper;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
+//import org.springframework.cache.annotation.CacheEvict;
+//import org.springframework.cache.annotation.CachePut;
+//import org.springframework.cache.annotation.Cacheable;
+//import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,23 +25,27 @@ import java.math.BigDecimal;
 @Transactional(readOnly = true)
 public class ServiceService extends AbstractBaseService<Service, ServiceResponseDTO> {
 
-    private final ServiceRepository serviceRepository;
+    private final IServiceRepository serviceRepository;
+    private final IServiceTypeRepository IServiceTypeRepository;
+    private final IUserRepository userRepository;
     private final ServiceMapper serviceMapper;
 
     @Value("${pagination.size.service.list:10}")
     private int defaultPageSize;
 
-    public ServiceService(ServiceRepository repository, ServiceMapper mapper) {
+    public ServiceService(IServiceRepository repository, IServiceTypeRepository IServiceTypeRepository, IUserRepository userRepository, ServiceMapper mapper) {
         super(repository, Service.class, mapper);
         this.serviceRepository = repository;
+        this.IServiceTypeRepository = IServiceTypeRepository;
+        this.userRepository = userRepository;
         this.serviceMapper = mapper;
     }
 
     // Limpia cachés relacionados al crear
-    @Caching(evict = {
-            @CacheEvict(value = "services", allEntries = true),
-            @CacheEvict(value = "service_carers", allEntries = true)
-    })
+    //@Caching(evict = {
+            //@CacheEvict(value = "services", allEntries = true),
+            //@CacheEvict(value = "service_carers", allEntries = true)
+    //})
     @Transactional
     public ServiceResponseDTO create(ServiceRequestDTO dto) {
         log.info("Creating service for carer: {}, type: {}", dto.getCarerId(), dto.getServiceTypeId());
@@ -51,7 +58,7 @@ public class ServiceService extends AbstractBaseService<Service, ServiceResponse
     }
 
     // Cachea búsqueda por ID
-    @Cacheable(value = "services", key = "#id")
+    //@Cacheable(value = "services", key = "#id")
     public ServiceResponseDTO findById(Long id) {
         log.debug("Finding service by id: {}", id);
         Service entity = findEntityById(id);
@@ -104,13 +111,13 @@ public class ServiceService extends AbstractBaseService<Service, ServiceResponse
     }
 
     // Actualiza el item Y limpia listas
-    @Caching(
-            put = @CachePut(value = "services", key = "#id"),
-            evict = {
-                    @CacheEvict(value = "services", allEntries = true),
-                    @CacheEvict(value = "service_carers", allEntries = true)
-            }
-    )
+    //@Caching(
+            //put = @CachePut(value = "services", key = "#id"),
+            //evict = {
+                    //@CacheEvict(value = "services", allEntries = true),
+                    //@CacheEvict(value = "service_carers", allEntries = true)
+            //}
+    //)
     @Transactional
     public ServiceResponseDTO update(Long id, ServiceRequestDTO dto) {
         log.info("Updating service with id: {}", id);
@@ -123,11 +130,11 @@ public class ServiceService extends AbstractBaseService<Service, ServiceResponse
     }
 
     // Elimina el item Y limpia listas
-    @Caching(evict = {
-            @CacheEvict(value = "services", key = "#id"),
-            @CacheEvict(value = "services", allEntries = true),
-            @CacheEvict(value = "service_carers", allEntries = true)
-    })
+    //@Caching(evict = {
+            //@CacheEvict(value = "services", key = "#id"),
+            //@CacheEvict(value = "services", allEntries = true),
+            //@CacheEvict(value = "service_carers", allEntries = true)
+    //})
     @Transactional
     public void delete(Long id) {
         log.info("Soft deleting service with id: {}", id);
@@ -146,6 +153,13 @@ public class ServiceService extends AbstractBaseService<Service, ServiceResponse
         }
         if (dto.getPrice() == null || dto.getPrice() <= 0) {
             throw new IllegalArgumentException("El precio debe ser mayor a cero");
+        }
+        // Validacion de existencia
+        if (!userRepository.existsById(dto.getCarerId())) {
+            throw new NotFoundException("Usuario no encontrado con id: " + dto.getCarerId());
+        }
+        if (!IServiceTypeRepository.existsById(dto.getServiceTypeId())) {
+            throw new NotFoundException("Tipo de servicio no encontrado con id: " + dto.getServiceTypeId());
         }
     }
 
