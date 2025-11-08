@@ -1,5 +1,8 @@
 package org.example.cuidadodemascotas.servicemicroservice.config;
 
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
+import org.example.cuidadodemascotas.servicemicroservice.security.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -7,17 +10,21 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity(prePostEnabled = true)  // Habilita @PreAuthorize
+@EnableMethodSecurity(prePostEnabled = true)
+@RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final JwtAuthenticationFilter jwtAuthFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
-                .cors(cors -> cors.disable())
+                .cors(cors -> {}) // Usa tu CorsConfig
                 .authorizeHttpRequests(auth -> auth
                         // ========== SWAGGER Y OPENAPI ==========
                         .requestMatchers(
@@ -29,25 +36,33 @@ public class SecurityConfig {
                                 "/webjars/**"
                         ).permitAll()
 
-                        // ========== ACTUATOR ==========
+                        // ========== ACTUATOR Y EUREKA ==========
                         .requestMatchers("/actuator/**").permitAll()
 
-                        // ========== ENDPOINTS PÚBLICOS (CONSULTA) ==========
+                        // ========== ENDPOINTS PUBLICOS (CONSULTA) ==========
                         .requestMatchers(
-                                "/service-types",
-                                "/service-types/{id}",
-                                "/services",
-                                "/services/{id}",
-                                "/services/search"
+                                "/service-types/**",      // GET público
+                                "/services",              // GET público
+                                "/services/{id}",         // GET público
+                                "/services/search"        // GET público
                         ).permitAll()
 
-                        // ========== ENDPOINTS PROTEGIDOS ==========
-                        // POST, PUT, DELETE requieren autenticación (manejado por @PreAuthorize)
+                        // ========== TODO LO DEMAS REQUIERE AUTENTICACION ==========
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                );
+                )
+                // Manejo de 401 para requests sin token o no autenticados
+                .exceptionHandling(exception ->
+                        exception.authenticationEntryPoint(
+                                (request, response, authException) -> {
+                                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage());
+                                }
+                        )
+                )
+                // Agregar filtro JWT ANTES del filtro de autenticacion
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
