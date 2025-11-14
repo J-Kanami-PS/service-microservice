@@ -10,10 +10,10 @@ import org.example.cuidadodemascotas.servicemicroservice.apis.repository.IServic
 import org.example.cuidadodemascotas.servicemicroservice.exception.NotFoundException;
 import org.example.cuidadodemascotas.servicemicroservice.utils.ServiceMapper;
 import org.springframework.beans.factory.annotation.Value;
-//import org.springframework.cache.annotation.CacheEvict;
-//import org.springframework.cache.annotation.CachePut;
-//import org.springframework.cache.annotation.Cacheable;
-//import org.springframework.cache.annotation.Caching;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,10 +42,10 @@ public class ServiceService extends AbstractBaseService<Service, ServiceResponse
     }
 
     // Limpia cachés relacionados al crear
-    //@Caching(evict = {
-            //@CacheEvict(value = "services", allEntries = true),
-            //@CacheEvict(value = "service_carers", allEntries = true)
-    //})
+    @Caching(evict = {
+            @CacheEvict(value = "services", allEntries = true),
+            @CacheEvict(value = "service_carers", allEntries = true)
+    })
     @Transactional
     public ServiceResponseDTO create(ServiceRequestDTO dto) {
         log.info("Creating service for carer: {}, type: {}", dto.getCarerId(), dto.getServiceTypeId());
@@ -58,7 +58,7 @@ public class ServiceService extends AbstractBaseService<Service, ServiceResponse
     }
 
     // Cachea búsqueda por ID
-    //@Cacheable(value = "services", key = "#id")
+    @Cacheable(value = "services", key = "#id")
     public ServiceResponseDTO findById(Long id) {
         log.debug("Finding service by id: {}", id);
         Service entity = findEntityById(id);
@@ -111,13 +111,13 @@ public class ServiceService extends AbstractBaseService<Service, ServiceResponse
     }
 
     // Actualiza el item Y limpia listas
-    //@Caching(
-            //put = @CachePut(value = "services", key = "#id"),
-            //evict = {
-                    //@CacheEvict(value = "services", allEntries = true),
-                    //@CacheEvict(value = "service_carers", allEntries = true)
-            //}
-    //)
+    @Caching(
+            put = @CachePut(value = "services", key = "#id"),
+            evict = {
+                    @CacheEvict(value = "services", allEntries = true),
+                    @CacheEvict(value = "service_carers", allEntries = true)
+            }
+    )
     @Transactional
     public ServiceResponseDTO update(Long id, ServiceRequestDTO dto) {
         log.info("Updating service with id: {}", id);
@@ -130,11 +130,11 @@ public class ServiceService extends AbstractBaseService<Service, ServiceResponse
     }
 
     // Elimina el item Y limpia listas
-    //@Caching(evict = {
-            //@CacheEvict(value = "services", key = "#id"),
-            //@CacheEvict(value = "services", allEntries = true),
-            //@CacheEvict(value = "service_carers", allEntries = true)
-    //})
+    @Caching(evict = {
+            @CacheEvict(value = "services", key = "#id"),
+            @CacheEvict(value = "services", allEntries = true),
+            @CacheEvict(value = "service_carers", allEntries = true)
+    })
     @Transactional
     public void delete(Long id) {
         log.info("Soft deleting service with id: {}", id);
