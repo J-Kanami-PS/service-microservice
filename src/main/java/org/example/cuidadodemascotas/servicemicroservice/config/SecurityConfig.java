@@ -41,6 +41,7 @@ public class SecurityConfig {
 
                         // ========== ENDPOINTS PUBLICOS (CONSULTA) ==========
                         .requestMatchers(
+                                org.springframework.http.HttpMethod.GET,
                                 "/service-types/**",      // GET público
                                 "/services",              // GET público
                                 "/services/{id}",         // GET público

@@ -3,13 +3,16 @@ package org.example.cuidadodemascotas.servicemicroservice.utils;
 import org.example.cuidadodemascota.commons.entities.service.ServiceType;
 import org.example.cuidadodemascotas.servicemicroservice.apis.dto.ServiceTypeRequestDTO;
 import org.example.cuidadodemascotas.servicemicroservice.apis.dto.ServiceTypeResponseDTO;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ServiceTypeMapper extends GenericMapper<ServiceType, ServiceTypeResponseDTO> {
 
-    public ServiceTypeMapper() {
-        super(ServiceType.class, ServiceTypeResponseDTO.class);
+    @Autowired
+    public ServiceTypeMapper(ModelMapper modelMapper) {
+        super(modelMapper, ServiceType.class, ServiceTypeResponseDTO.class);
     }
 
     @Override
