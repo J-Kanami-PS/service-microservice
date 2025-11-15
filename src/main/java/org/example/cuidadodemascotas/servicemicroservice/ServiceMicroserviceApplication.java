@@ -4,6 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseAutoConfiguration;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.ComponentScan;
 
@@ -14,7 +16,7 @@ import org.springframework.context.annotation.ComponentScan;
         "org.example.cuidadodemascotas.servicemicroservice",
         "org.example.cuidadodemascota.commons.entities"
 })
-public class ServiceMicroserviceApplication {
+public class ServiceMicroserviceApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
         log.info("========================================");
@@ -28,5 +30,10 @@ public class ServiceMicroserviceApplication {
         log.info("Swagger UI: http://localhost:8083/swagger-ui.html");
         log.info("API Docs: http://localhost:8083/api-docs");
         log.info("========================================");
+    }
+
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(ServiceMicroserviceApplication.class);
     }
 }

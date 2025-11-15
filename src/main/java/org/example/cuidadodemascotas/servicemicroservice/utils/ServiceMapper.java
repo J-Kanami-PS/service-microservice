@@ -5,6 +5,8 @@ import org.example.cuidadodemascota.commons.entities.service.ServiceType;
 import org.example.cuidadodemascota.commons.entities.user.User;
 import org.example.cuidadodemascotas.servicemicroservice.apis.dto.ServiceRequestDTO;
 import org.example.cuidadodemascotas.servicemicroservice.apis.dto.ServiceResponseDTO;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -14,8 +16,9 @@ import java.time.ZoneOffset;
 @Component
 public class ServiceMapper extends GenericMapper<Service, ServiceResponseDTO> {
 
-    public ServiceMapper() {
-        super(Service.class, ServiceResponseDTO.class);
+    @Autowired
+    public ServiceMapper(ModelMapper modelMapper) {
+        super(modelMapper, Service.class, ServiceResponseDTO.class);
     }
 
     @Override

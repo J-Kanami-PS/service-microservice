@@ -7,15 +7,15 @@ import org.example.cuidadodemascotas.servicemicroservice.apis.dto.ServiceTypeRes
 import org.example.cuidadodemascotas.servicemicroservice.apis.repository.IServiceTypeRepository;
 import org.example.cuidadodemascotas.servicemicroservice.utils.ServiceTypeMapper;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
+//import org.springframework.cache.annotation.CacheEvict;
+//import org.springframework.cache.annotation.CachePut;
+//import org.springframework.cache.annotation.Cacheable;
+//import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.redis.cache.RedisCacheManager;
+//import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,19 +26,23 @@ public class ServiceTypeService {
 
     private final IServiceTypeRepository repository;
     private final ServiceTypeMapper mapper;
-    private final RedisCacheManager cacheManager;
+    //private final RedisCacheManager cacheManager;
 
     @Value("${pagination.size.service-type.list:20}")
     private int defaultPageSize;
 
-    public ServiceTypeService(IServiceTypeRepository repository, ServiceTypeMapper mapper, RedisCacheManager cacheManager) {
+    //public ServiceTypeService(IServiceTypeRepository repository, ServiceTypeMapper mapper, RedisCacheManager cacheManager) {
+        //this.repository = repository;
+        //this.mapper = mapper;
+        //this.cacheManager = cacheManager;
+    //}
+    public ServiceTypeService(IServiceTypeRepository repository, ServiceTypeMapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
-        this.cacheManager = cacheManager;
     }
 
     // Limpia solo la lista completa al crear
-    @CacheEvict(value = "service_types", key = "'byId_' + #id")
+    //@CacheEvict(value = "service_types", key = "'byId_' + #id")
     @Transactional
     public ServiceTypeResponseDTO create(ServiceTypeRequestDTO dto) {
         log.info("Creating service type: {}", dto.getName());
@@ -53,7 +57,7 @@ public class ServiceTypeService {
     }
 
     // Cachea por ID
-    @Cacheable(value = "service_types", key = "'byId_' + #id")
+    //@Cacheable(value = "service_types", key = "'byId_' + #id")
     public ServiceTypeResponseDTO findById(Long id) {
         log.debug("Finding service type by id: {}", id);
         ServiceType entity = repository.findById(id)
@@ -83,11 +87,11 @@ public class ServiceTypeService {
         Pageable pageable = PageRequest.of(page, pageSize, sortOrder);
         Page<ServiceType> entityPage = repository.findAll(pageable);
 
-        entityPage.forEach(st->{
-            cacheManager.getCache("service_types").put("byId_" + st.getId(), mapper.toDto(st));
-            log.info("Tipo de servicio cacheado con ID: {}", st.getId());
-        });
-        log.info("Todos los tipos de servicio cacheados.");
+        //entityPage.forEach(st->{
+            //cacheManager.getCache("service_types").put("byId_" + st.getId(), mapper.toDto(st));
+            //log.info("Tipo de servicio cacheado con ID: {}", st.getId());
+        //});
+        //log.info("Todos los tipos de servicio cacheados.");
 
         return entityPage.map(mapper::toDto);
     }
@@ -101,7 +105,7 @@ public class ServiceTypeService {
     }
 
     // Actualiza el item específico Y limpia la lista
-    @CachePut(value = "service_types", key = "'byId_' + #id")
+    //@CachePut(value = "service_types", key = "'byId_' + #id")
     @Transactional
     public ServiceTypeResponseDTO update(Long id, ServiceTypeRequestDTO dto) {
         log.info("Updating service type with id: {}", id);
@@ -119,7 +123,7 @@ public class ServiceTypeService {
     }
 
     // Elimina ambos: el item específico Y la lista
-    @CacheEvict(value = "service_types", key = "'byId_' + #id")
+    //@CacheEvict(value = "service_types", key = "'byId_' + #id")
     @Transactional
     public void delete(Long id) {
         log.info("Deleting service type with id: {}", id);

@@ -10,13 +10,13 @@ import org.example.cuidadodemascotas.servicemicroservice.apis.repository.IServic
 import org.example.cuidadodemascotas.servicemicroservice.exception.NotFoundException;
 import org.example.cuidadodemascotas.servicemicroservice.utils.ServiceMapper;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
+//import org.springframework.cache.annotation.CacheEvict;
+//import org.springframework.cache.annotation.CachePut;
+//import org.springframework.cache.annotation.Cacheable;
+//import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.redis.cache.RedisCacheManager;
+//import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
@@ -30,27 +30,34 @@ public class ServiceService extends AbstractBaseService<Service, ServiceResponse
     private final IServiceTypeRepository IServiceTypeRepository;
     private final IUserRepository userRepository;
     private final ServiceMapper serviceMapper;
-    private final RedisCacheManager cacheManager;
+    //private final RedisCacheManager cacheManager;
 
     @Value("${pagination.size.service.list:10}")
     private int defaultPageSize;
 
-    public ServiceService(IServiceRepository repository, IServiceTypeRepository IServiceTypeRepository, IUserRepository userRepository, ServiceMapper mapper, RedisCacheManager cacheManager) {
+    //public ServiceService(IServiceRepository repository, IServiceTypeRepository IServiceTypeRepository, IUserRepository userRepository, ServiceMapper mapper, RedisCacheManager cacheManager) {
+        //super(repository, Service.class, mapper);
+        //this.serviceRepository = repository;
+        //this.IServiceTypeRepository = IServiceTypeRepository;
+        //this.userRepository = userRepository;
+        //this.serviceMapper = mapper;
+        //this.cacheManager = cacheManager;
+    //}
+    public ServiceService(IServiceRepository repository, IServiceTypeRepository IServiceTypeRepository, IUserRepository userRepository, ServiceMapper mapper) {
         super(repository, Service.class, mapper);
         this.serviceRepository = repository;
         this.IServiceTypeRepository = IServiceTypeRepository;
         this.userRepository = userRepository;
         this.serviceMapper = mapper;
-        this.cacheManager = cacheManager;
     }
 
     // Limpia cachés relacionados al crear
-    @Caching(evict = {
-            @CacheEvict(value = "services", allEntries = true),
-            @CacheEvict(value = "service_carers", allEntries = true)
-    })
+    //@Caching(evict = {
+            //@CacheEvict(value = "services", allEntries = true),
+            //@CacheEvict(value = "service_carers", allEntries = true)
+    //})
     @Transactional
-    @CachePut(value = "services", key = "'byId_' + #result.id")
+    //@CachePut(value = "services", key = "'byId_' + #result.id")
     public ServiceResponseDTO create(ServiceRequestDTO dto) {
         log.info("Creating service for carer: {}, type: {}", dto.getCarerId(), dto.getServiceTypeId());
         validateServiceRequest(dto);
@@ -62,7 +69,7 @@ public class ServiceService extends AbstractBaseService<Service, ServiceResponse
     }
 
     // Cachea búsqueda por ID
-    @Cacheable(value = "services", key = "'byId_' + #id")
+    //@Cacheable(value = "services", key = "'byId_' + #id")
     public ServiceResponseDTO findById(Long id) {
         log.debug("Finding service by id: {}", id);
         Service entity = findEntityById(id);
@@ -101,11 +108,11 @@ public class ServiceService extends AbstractBaseService<Service, ServiceResponse
             result = serviceRepository.findAllServices(pageable);
         }
         // Cachear cada servicio individualmente
-        result.forEach(service -> {
-            cacheManager.getCache("services").put("byId_" + service.getId(), serviceMapper.toDto(service));
-            log.info("Servicio cacheado con ID: {}", service.getId());
-        });
-        log.info("Todos los servicios cacheados.");
+        //result.forEach(service -> {
+            //cacheManager.getCache("services").put("byId_" + service.getId(), serviceMapper.toDto(service));
+            //log.info("Servicio cacheado con ID: {}", service.getId());
+        //});
+        //log.info("Todos los servicios cacheados.");
 
         return result.map(serviceMapper::toDto);
     }
@@ -122,7 +129,7 @@ public class ServiceService extends AbstractBaseService<Service, ServiceResponse
     }
 
     // Actualiza el item Y limpia listas
-    @CachePut(value = "services", key = "'byId_' + #id")
+    //@CachePut(value = "services", key = "'byId_' + #id")
     @Transactional
     public ServiceResponseDTO update(Long id, ServiceRequestDTO dto) {
         log.info("Updating service with id: {}", id);
@@ -135,7 +142,7 @@ public class ServiceService extends AbstractBaseService<Service, ServiceResponse
     }
 
     // Elimina el item Y limpia listas
-    @CacheEvict(value = "services", key = "'byId_' + #id")
+    //@CacheEvict(value = "services", key = "'byId_' + #id")
     @Transactional
     public void delete(Long id) {
         log.info("Soft deleting service with id: {}", id);
