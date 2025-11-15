@@ -45,10 +45,6 @@ public class ServiceService extends AbstractBaseService<Service, ServiceResponse
     }
 
     // Limpia cachés relacionados al crear
-    @Caching(evict = {
-            @CacheEvict(value = "services", allEntries = true),
-            @CacheEvict(value = "service_carers", allEntries = true)
-    })
     @Transactional
     @CachePut(value = "services", key = "'byId_' + #result.id")
     public ServiceResponseDTO create(ServiceRequestDTO dto) {
