@@ -13,6 +13,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -21,7 +23,7 @@ public class ServiceController implements ServiceApi {
 
     private final ServiceService serviceService;
 
-    @Override
+    /*@Override
     public ResponseEntity<ServicePageResponse> getServices(
             Long carerId,
             Long serviceTypeId,
@@ -46,7 +48,49 @@ public class ServiceController implements ServiceApi {
         response.setSize(pageResult.getSize());
         response.setNumber(pageResult.getNumber());
         return ResponseEntity.ok(response);
+    }*/
+    @Override
+    public ResponseEntity<ServicePageResponse> getServices(
+            Long carerId,
+            Long serviceTypeId,
+            Double minPrice,
+            Double maxPrice,
+            Integer page,
+            Integer size
+    ) {
+        log.info("GET /services - Filters: carerId={}, typeId={}, price={}-{}, page={}, size={}",
+                carerId, serviceTypeId, minPrice, maxPrice, page, size);
+
+        int pageNumber = (page != null && page >= 0) ? page : 0;
+        int pageSize = (size != null && size > 0) ? size : 10;
+        BigDecimal minPriceBd = (minPrice != null) ? BigDecimal.valueOf(minPrice) : null;
+        BigDecimal maxPriceBd = (maxPrice != null) ? BigDecimal.valueOf(maxPrice) : null;
+
+        // Obtener los servicios filtrados
+        Page<ServiceResponseDTO> pageResult = serviceService.findByFilters(
+                carerId, serviceTypeId, minPriceBd, maxPriceBd, pageNumber, pageSize
+        );
+
+        // Asignar serviceType a cada DTO
+        List<ServiceResponseDTO> dtosConTipo = pageResult.getContent().stream()
+                .peek(dto -> {
+                    if (dto.getServiceTypeId() != null) {
+                        dto.setServiceType(serviceService.getServiceTypeById(dto.getServiceTypeId()));
+                    }
+                })
+                .collect(Collectors.toList());
+
+        // Armar la respuesta
+        ServicePageResponse response = new ServicePageResponse();
+        response.setContent(dtosConTipo);
+        response.setTotalElements(pageResult.getTotalElements());
+        response.setTotalPages(pageResult.getTotalPages());
+        response.setSize(pageResult.getSize());
+        response.setNumber(pageResult.getNumber());
+
+        return ResponseEntity.ok(response);
     }
+
 
     @Override
     public ResponseEntity<ServicePageResponse> searchServicesByText(

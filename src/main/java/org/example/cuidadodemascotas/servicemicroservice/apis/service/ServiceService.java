@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.cuidadodemascota.commons.entities.service.Service;
 import org.example.cuidadodemascotas.servicemicroservice.apis.dto.ServiceRequestDTO;
 import org.example.cuidadodemascotas.servicemicroservice.apis.dto.ServiceResponseDTO;
+import org.example.cuidadodemascotas.servicemicroservice.apis.dto.ServiceTypeResponseDTO;
 import org.example.cuidadodemascotas.servicemicroservice.apis.repository.IUserRepository;
 import org.example.cuidadodemascotas.servicemicroservice.apis.repository.IServiceRepository;
 import org.example.cuidadodemascotas.servicemicroservice.apis.repository.IServiceTypeRepository;
@@ -179,4 +180,16 @@ public class ServiceService extends AbstractBaseService<Service, ServiceResponse
     public long countServicesByCarer(Long carerId) {
         return serviceRepository.countByCarerId(carerId);
     }
+
+    public ServiceTypeResponseDTO getServiceTypeById(Long id) {
+        return IServiceTypeRepository.findById(id)
+                .map(entity -> {
+                    ServiceTypeResponseDTO dto = new ServiceTypeResponseDTO();
+                    dto.setId(entity.getId());
+                    dto.setName(entity.getName()); // suponiendo que tu entidad tiene 'name'
+                    return dto;
+                })
+                .orElse(null);
+    }
+
 }

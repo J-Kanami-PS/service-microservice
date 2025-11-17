@@ -159,7 +159,6 @@ public class ServicePageResponse {
         Objects.equals(this.size, servicePageResponse.size) &&
         Objects.equals(this.number, servicePageResponse.number);
   }
-
   @Override
   public int hashCode() {
     return Objects.hash(content, totalElements, totalPages, size, number);

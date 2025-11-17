@@ -29,6 +29,7 @@ public class ServiceResponseDTO {
 
   private Long serviceTypeId;
 
+  private ServiceTypeResponseDTO serviceType;
   private String description;
 
   private Double price;
@@ -213,6 +214,7 @@ public class ServiceResponseDTO {
     return Objects.equals(this.id, serviceResponseDTO.id) &&
         Objects.equals(this.carerId, serviceResponseDTO.carerId) &&
         Objects.equals(this.serviceTypeId, serviceResponseDTO.serviceTypeId) &&
+        Objects.equals(this.serviceType, serviceResponseDTO.serviceType) &&
         Objects.equals(this.description, serviceResponseDTO.description) &&
         Objects.equals(this.price, serviceResponseDTO.price) &&
         Objects.equals(this.createdAt, serviceResponseDTO.createdAt) &&
@@ -222,7 +224,7 @@ public class ServiceResponseDTO {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, carerId, serviceTypeId, description, price, createdAt, updatedAt, active);
+      return Objects.hash(id, carerId, serviceTypeId, serviceType, description, price, createdAt, updatedAt, active);
   }
 
   @Override
@@ -231,7 +233,7 @@ public class ServiceResponseDTO {
     sb.append("class ServiceResponseDTO {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    carerId: ").append(toIndentedString(carerId)).append("\n");
-    sb.append("    serviceTypeId: ").append(toIndentedString(serviceTypeId)).append("\n");
+    sb.append("    serviceType: ").append(toIndentedString(serviceType)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    price: ").append(toIndentedString(price)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
@@ -251,5 +253,21 @@ public class ServiceResponseDTO {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+    public ServiceResponseDTO serviceType(ServiceTypeResponseDTO serviceType) {
+        this.serviceType = serviceType;
+        return this;
+    }
+
+    @Schema(name = "serviceType", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @JsonProperty("serviceType")
+    public ServiceTypeResponseDTO getServiceType() {
+        return serviceType;
+    }
+
+    public void setServiceType(ServiceTypeResponseDTO serviceType) {
+        this.serviceType = serviceType;
+    }
+
 }
 
