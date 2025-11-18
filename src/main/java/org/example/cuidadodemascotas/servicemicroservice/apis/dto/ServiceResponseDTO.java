@@ -5,6 +5,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.time.OffsetDateTime;
+import org.example.cuidadodemascotas.servicemicroservice.apis.dto.ServiceTypeResponseDTO;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -20,7 +21,7 @@ import jakarta.annotation.Generated;
  * ServiceResponseDTO
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-11-14T23:39:51.205783900-03:00[America/Asuncion]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-11-17T22:31:03.867534200-03:00[America/Asuncion]")
 public class ServiceResponseDTO {
 
   private Long id;
@@ -28,6 +29,8 @@ public class ServiceResponseDTO {
   private Long carerId;
 
   private Long serviceTypeId;
+
+  private ServiceTypeResponseDTO serviceType;
 
   private String description;
 
@@ -99,6 +102,26 @@ public class ServiceResponseDTO {
 
   public void setServiceTypeId(Long serviceTypeId) {
     this.serviceTypeId = serviceTypeId;
+  }
+
+  public ServiceResponseDTO serviceType(ServiceTypeResponseDTO serviceType) {
+    this.serviceType = serviceType;
+    return this;
+  }
+
+  /**
+   * Get serviceType
+   * @return serviceType
+  */
+  @Valid 
+  @Schema(name = "serviceType", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("serviceType")
+  public ServiceTypeResponseDTO getServiceType() {
+    return serviceType;
+  }
+
+  public void setServiceType(ServiceTypeResponseDTO serviceType) {
+    this.serviceType = serviceType;
   }
 
   public ServiceResponseDTO description(String description) {
@@ -213,6 +236,7 @@ public class ServiceResponseDTO {
     return Objects.equals(this.id, serviceResponseDTO.id) &&
         Objects.equals(this.carerId, serviceResponseDTO.carerId) &&
         Objects.equals(this.serviceTypeId, serviceResponseDTO.serviceTypeId) &&
+        Objects.equals(this.serviceType, serviceResponseDTO.serviceType) &&
         Objects.equals(this.description, serviceResponseDTO.description) &&
         Objects.equals(this.price, serviceResponseDTO.price) &&
         Objects.equals(this.createdAt, serviceResponseDTO.createdAt) &&
@@ -222,7 +246,7 @@ public class ServiceResponseDTO {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, carerId, serviceTypeId, description, price, createdAt, updatedAt, active);
+    return Objects.hash(id, carerId, serviceTypeId, serviceType, description, price, createdAt, updatedAt, active);
   }
 
   @Override
@@ -232,6 +256,7 @@ public class ServiceResponseDTO {
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    carerId: ").append(toIndentedString(carerId)).append("\n");
     sb.append("    serviceTypeId: ").append(toIndentedString(serviceTypeId)).append("\n");
+    sb.append("    serviceType: ").append(toIndentedString(serviceType)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    price: ").append(toIndentedString(price)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");

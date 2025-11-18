@@ -356,6 +356,8 @@ components:
         serviceTypeId:
           type: integer
           format: int64
+        serviceType:
+          $ref: '#/components/schemas/ServiceTypeResponseDTO'
         description:
           type: string
         price:
